@@ -1,4 +1,5 @@
 # Kotlin-AgendaCalendarView
-In Develompment
+This project currently in Develompment
 
-Base on [AgendaCalendarView](https://github.com/Tibolte/AgendaCalendarView) on ss
+Kotlin-AgendaCalendarView based on [AgendaCalendarView](https://github.com/Tibolte/AgendaCalendarView) developed on Java
+
