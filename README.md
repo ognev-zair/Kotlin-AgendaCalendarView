@@ -5,8 +5,10 @@ Kotlin-AgendaCalendarView based on [AgendaCalendarView](https://github.com/Tibol
 
 
 
+Licence
+-----------
 
-> Copyright 2015 Thibault Guégan
+ Copyright 2017 Ognev Zair
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
