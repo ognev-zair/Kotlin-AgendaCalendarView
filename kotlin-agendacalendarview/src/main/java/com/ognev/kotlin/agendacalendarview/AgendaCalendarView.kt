@@ -45,6 +45,7 @@ class AgendaCalendarView : FrameLayout, StickyListHeadersListView.OnStickyHeader
     private var mCalendarPastDayTextColor: Int = 0
     private var mCalendarCurrentDayColor: Int = 0
     private var mFabColor: Int = 0
+    private lateinit var calendarItemLayout: CalendarItemLayout
     private var mCalendarPickerController: CalendarPickerController? = null
 
     private val mAgendaListViewScrollTracker: ListViewScrollTracker? = null
@@ -117,7 +118,7 @@ class AgendaCalendarView : FrameLayout, StickyListHeadersListView.OnStickyHeader
         mCalendarView!!.findViewById(R.id.cal_day_names).setBackgroundColor(mCalendarHeaderColor)
         mCalendarView!!.findViewById(R.id.list_week).setBackgroundColor(mCalendarBackgroundColor)
 
-        agendaView!!.agendaListView!!.setOnItemClickListener({ parent: AdapterView<*>, view: View, position: Int, id: Long -> mCalendarPickerController!!.onEventSelected(CalendarManager.instance!!.events[position]) })
+        agendaView.agendaListView.setOnItemClickListener({ parent: AdapterView<*>, view: View, position: Int, id: Long -> mCalendarPickerController!!.onEventSelected(CalendarManager.instance!!.events[position]) })
 
         BusProvider.instance.toObserverable()
                 .subscribe({ event ->
@@ -175,7 +176,7 @@ class AgendaCalendarView : FrameLayout, StickyListHeadersListView.OnStickyHeader
             val event = CalendarManager.instance!!.events[position]
             if (event != null) {
                 mCalendarView!!.scrollToDate(event)
-                mCalendarPickerController!!.onScrollToDate(event!!.instanceDay)
+                mCalendarPickerController!!.onScrollToDate(event.instanceDay)
             }
         }
     }
@@ -184,18 +185,19 @@ class AgendaCalendarView : FrameLayout, StickyListHeadersListView.OnStickyHeader
 
     // region Public methods
 
-    fun init(eventList: MutableList<CalendarEvent>, minDate: Calendar, maxDate: Calendar, locale: Locale, calendarPickerController: CalendarPickerController) {
+    fun init(eventList: MutableList<CalendarEvent<Any>>, minDate: Calendar, maxDate: Calendar, locale: Locale, calendarPickerController: CalendarPickerController, calendarItemLayout: CalendarItemLayout) {
         mCalendarPickerController = calendarPickerController
+        this.calendarItemLayout = calendarItemLayout;
 
-        CalendarManager.getInstance(getContext()).buildCal(minDate, maxDate)
+        CalendarManager.getInstance(context).buildCal(minDate, maxDate)
 
         // Feed our views with weeks list and events
-        mCalendarView!!.init(CalendarManager.getInstance(getContext()), mCalendarDayTextColor, mCalendarCurrentDayColor, mCalendarPastDayTextColor)
+        mCalendarView!!.init(CalendarManager.getInstance(context), mCalendarDayTextColor, mCalendarCurrentDayColor, mCalendarPastDayTextColor)
 
         // Load agenda events and scroll to current day
         val agendaAdapter = AgendaAdapter(mAgendaCurrentDayTextColor)
-        agendaView!!.agendaListView!!.setAdapter(agendaAdapter)
-        agendaView!!.agendaListView!!.setOnStickyHeaderChangedListener(this)
+        agendaView.agendaListView.adapter = agendaAdapter
+        agendaView.agendaListView.setOnStickyHeaderChangedListener(this)
 
         CalendarManager.instance!!.loadEvents(eventList, BaseCalendarEvent())
         BusProvider.instance.send(Events.EventsFetched())
@@ -205,13 +207,16 @@ class AgendaCalendarView : FrameLayout, StickyListHeadersListView.OnStickyHeader
         addEventRenderer(DefaultEventRenderer())
     }
 
-    fun init(lWeeks: MutableList<IWeekItem>, lDays: MutableList<IDayItem>, lEvents: MutableList<CalendarEvent>, calendarPickerController: CalendarPickerController) {
+    fun init(lWeeks: MutableList<IWeekItem>, lDays: MutableList<IDayItem>, lEvents: MutableList<CalendarEvent<Any>>,
+             sampleAgendaAdapter: DefaultEventRenderer,
+             calendarPickerController: CalendarPickerController, calendarItemLayout: CalendarItemLayout) {
         mCalendarPickerController = calendarPickerController
+        this.calendarItemLayout = calendarItemLayout;
 
-        CalendarManager.getInstance(getContext()).loadCal(lWeeks, lDays, lEvents)
+        CalendarManager.getInstance(context).loadCal(lWeeks, lDays, lEvents)
 
         // Feed our views with weeks MutableList and events
-        mCalendarView!!.init(CalendarManager.getInstance(getContext()), mCalendarDayTextColor, mCalendarCurrentDayColor, mCalendarPastDayTextColor)
+        mCalendarView!!.init(CalendarManager.getInstance(context), mCalendarDayTextColor, mCalendarCurrentDayColor, mCalendarPastDayTextColor)
 
         // Load agenda events and scroll to current day
         val agendaAdapter = AgendaAdapter(mAgendaCurrentDayTextColor)
@@ -223,12 +228,13 @@ class AgendaCalendarView : FrameLayout, StickyListHeadersListView.OnStickyHeader
         //    Log.d(LOG_TAG, "CalendarEventTask finished");
 
         // add default event renderer
-        addEventRenderer(DefaultEventRenderer())
+        addEventRenderer(sampleAgendaAdapter)
     }
 
     fun addEventRenderer(@NonNull renderer: EventRenderer<*>) {
-        val adapter = agendaView!!.agendaListView!!.getAdapter() as AgendaAdapter
-        adapter.addEventRenderer(renderer as EventRenderer<CalendarEvent>)
+        val adapter = agendaView.agendaListView.adapter as AgendaAdapter
+        adapter.setCalendarLayouts(calendarItemLayout)
+        adapter.addEventRenderer(renderer as EventRenderer<CalendarEvent<Any>>)
     }
 
     fun setOnVisitClickListener(visitClickListener: OnClickListener) {
@@ -237,7 +243,7 @@ class AgendaCalendarView : FrameLayout, StickyListHeadersListView.OnStickyHeader
 
     companion object {
 
-        private val LOG_TAG = AgendaCalendarView::class.java!!.getSimpleName()
+        private val LOG_TAG = AgendaCalendarView::class.java.simpleName
     }
 
     // endregion

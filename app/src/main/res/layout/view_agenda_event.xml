@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.ognev.kotlin.agendacalendarview.agenda.AgendaEventView
+		xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:gravity="center_vertical"
+		android:orientation="horizontal"
+		>
+
+	<!-- Description -->
+
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	              android:orientation="vertical"
+	              android:background="@color/white"
+	              android:layout_width="match_parent"
+	              android:layout_height="wrap_content"
+			>
+
+		<LinearLayout
+				android:orientation="horizontal"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:gravity="center"
+				android:background="@color/white"
+				android:layout_marginTop="1dp"
+				android:layout_marginBottom="1dp"
+				>
+
+			<TextView
+					android:id="@+id/time"
+					android:text="14:30"
+					android:textSize="11sp"
+					android:background="@color/white"
+					android:textColor="@color/text_light_color"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:textAllCaps="true"
+					android:padding="16dp"
+					/>
+
+			<View
+					android:id="@+id/divider_item_reception"
+					android:layout_width="1dp"
+					android:background="@color/reception_status_blue"
+					android:layout_height="match_parent"
+					/>
+
+			<RelativeLayout
+					android:id="@+id/layout_item_reception"
+					android:paddingTop="7dp"
+					android:paddingBottom="7dp"
+					android:paddingLeft="10dp"
+					android:gravity="center_vertical"
+					android:orientation="vertical"
+					android:layout_width="match_parent"
+					android:background="@drawable/reception_gradient_azure"
+					android:layout_height="wrap_content"
+					>
+
+				<TextView
+						android:id="@+id/name"
+						android:text="Абрамов Сергей Игоревич"
+						android:textSize="14dp"
+						android:textColor="@color/text_color_blue"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_alignParentLeft="true"
+						android:layout_toLeftOf="@+id/status_item_reception"
+						/>
+
+				<TextView
+						android:id="@+id/description"
+						android:textSize="11sp"
+						android:textColor="@color/text_color_blue"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:maxLines="2"
+						android:layout_below="@+id/name_item_reception"
+						android:layout_toLeftOf="@+id/status_item_reception"
+						android:layout_alignParentLeft="true"
+						/>
+
+				<!--<ImageView-->
+						<!--android:id="@+id/status_item_reception"-->
+						<!--android:src="@drawable/awaiting"-->
+						<!--android:layout_width="wrap_content"-->
+						<!--android:layout_height="wrap_content"-->
+						<!--android:layout_centerVertical="true"-->
+						<!--android:layout_alignParentRight="true"-->
+						<!--android:layout_margin="15dp"-->
+						<!--/>-->
+
+			</RelativeLayout>
+		</LinearLayout>
+
+		<View
+				android:background="@color/divider_light_color"
+				android:layout_width="match_parent"
+				android:layout_marginLeft="53dp"
+				android:layout_height="0.3dp"
+				/>
+	</LinearLayout>
+
+
+</com.ognev.kotlin.agendacalendarview.agenda.AgendaEventView>

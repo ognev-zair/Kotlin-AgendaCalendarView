@@ -46,7 +46,7 @@ object DateHelper {
      */
     fun sameDate(cal: Calendar, selectedDate: Date): Boolean {
         val selectedCal = Calendar.getInstance()
-        selectedCal.setTime(selectedDate)
+        selectedCal.time = selectedDate
         return cal.get(Calendar.MONTH) === selectedCal.get(Calendar.MONTH)
                 && cal.get(Calendar.YEAR) === selectedCal.get(Calendar.YEAR)
                 && cal.get(Calendar.DAY_OF_MONTH) === selectedCal.get(Calendar.DAY_OF_MONTH)
@@ -65,7 +65,7 @@ object DateHelper {
      */
     fun isBetweenInclusive(selectedDate: Date, startCal: Calendar, endCal: Calendar): Boolean {
         val selectedCal = Calendar.getInstance()
-        selectedCal.setTime(selectedDate)
+        selectedCal.time = selectedDate
         // Check if we deal with the same day regarding startCal and endCal
         return sameDate(selectedCal, startCal) || selectedCal.after(startCal) && selectedCal.before(endCal)
     }

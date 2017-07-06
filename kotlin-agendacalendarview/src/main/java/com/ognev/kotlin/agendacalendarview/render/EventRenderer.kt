@@ -9,15 +9,17 @@ import java.lang.reflect.ParameterizedType
 /**
  * Base class for helping layout rendering
  */
-abstract class EventRenderer<T : CalendarEvent> {
+abstract class EventRenderer<T> {
+
     abstract fun render(view: View, event: T)
 
     @LayoutRes
-    abstract fun getEventLayout(b: Boolean): Int
+    abstract fun getEventLayout(isEmptyEvent: Boolean): Int
 
     val renderType: Class<T>
         get() {
-            val type = javaClass.genericSuperclass as ParameterizedType
-            return type.actualTypeArguments[0] as Class<T>
+//            val type = javaClass.genericSuperclass as ParameterizedType
+//            return type.actualTypeArguments[0].javaClass as Class<T>
+            return javaClass.genericSuperclass as Class<T>
         }
 }

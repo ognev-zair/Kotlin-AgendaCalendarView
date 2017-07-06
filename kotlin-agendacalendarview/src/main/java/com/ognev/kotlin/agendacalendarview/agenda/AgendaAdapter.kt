@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import com.ognev.kotlin.agendacalendarview.CalendarItemLayout
 import com.ognev.kotlin.agendacalendarview.CalendarManager
 import com.ognev.kotlin.agendacalendarview.models.CalendarEvent
 import com.ognev.kotlin.agendacalendarview.render.DefaultEventRenderer
@@ -25,8 +26,9 @@ class AgendaAdapter
         return CalendarManager.instance!!.events.size
     }
 
-    private val mRenderers = ArrayList<EventRenderer<CalendarEvent>>()
+    private val mRenderers = ArrayList<EventRenderer<CalendarEvent<Any>>>()
     private var visitClickListener: View.OnClickListener? = null
+    private lateinit var calendarItemLayout: CalendarItemLayout
 
     // endregion
 
@@ -68,7 +70,7 @@ class AgendaAdapter
     }
 
     override
-    fun getItem(position: Int): CalendarEvent {
+    fun getItem(position: Int): CalendarEvent<Any> {
         return CalendarManager.instance!!.events[position]
     }
 
@@ -80,7 +82,7 @@ class AgendaAdapter
     override
     fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var convertView = convertView
-        var eventRenderer: EventRenderer<CalendarEvent> = DefaultEventRenderer() as EventRenderer<CalendarEvent>
+        var eventRenderer: EventRenderer<CalendarEvent<Any>> = mRenderers[0]
         val event = getItem(position)
 
         // Search for the correct event renderer
@@ -90,7 +92,7 @@ class AgendaAdapter
                 break
             }
         }
-        convertView = LayoutInflater.from(parent.getContext())
+        convertView = LayoutInflater.from(parent.context)
                 .inflate(eventRenderer.getEventLayout(CalendarManager.instance!!.events[position].hasEvent()), parent, false)
 
 
@@ -104,11 +106,15 @@ class AgendaAdapter
         return convertView
     }
 
+    fun setCalendarLayouts(calendarItemLayout: CalendarItemLayout) {
+        this.calendarItemLayout = calendarItemLayout;
+    }
+
     fun setOnVisitClickListener(visitClickListener: View.OnClickListener) {
         this.visitClickListener = visitClickListener
     }
 
-    fun addEventRenderer(@NonNull renderer: EventRenderer<CalendarEvent>) {
+    fun addEventRenderer(@NonNull renderer: EventRenderer<CalendarEvent<Any>>) {
         mRenderers.add(renderer)
     }
 

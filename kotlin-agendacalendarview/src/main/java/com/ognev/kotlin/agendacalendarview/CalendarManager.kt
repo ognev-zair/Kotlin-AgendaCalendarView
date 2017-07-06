@@ -48,7 +48,7 @@ class CalendarManager
     /**
      * List of events instances
      */
-    var events: MutableList<CalendarEvent> = ArrayList()
+    var events: MutableList<CalendarEvent<Any>> = ArrayList()
         private set
 
     // endregion
@@ -73,15 +73,15 @@ class CalendarManager
         val mMaxCal = Calendar.getInstance(locale)
         val mWeekCounter = Calendar.getInstance(locale)
 
-        mMinCal.setTime(minDate!!.getTime())
-        mMaxCal.setTime(maxDate!!.getTime())
+        mMinCal.time = minDate.time
+        mMaxCal.time = maxDate.time
 
         // maxDate is exclusive, here we bump back to the previous day, as maxDate if December 1st, 2020,
         // we don't include that month in our list
         mMaxCal.add(Calendar.MINUTE, -1)
 
         // Now iterate we iterate between mMinCal and mMaxCal so we build our list of weeks
-        mWeekCounter.setTime(mMinCal.getTime())
+        mWeekCounter.time = mMinCal.time
         val maxMonth = mMaxCal.get(Calendar.MONTH)
         val maxYear = mMaxCal.get(Calendar.YEAR)
 
@@ -93,7 +93,7 @@ class CalendarManager
                 || currentYear < maxYear) // Up to the year.
                 && currentYear < maxYear + 1) { // But not > next yr.
 
-            val date = mWeekCounter.getTime()
+            val date = mWeekCounter.time
             // Build our week list
             val currentWeekOfYear = mWeekCounter.get(Calendar.WEEK_OF_YEAR)
 
@@ -111,7 +111,7 @@ class CalendarManager
         }
     }
 
-    fun loadEvents(eventList: List<CalendarEvent>, noEvent: CalendarEvent) {
+    fun loadEvents(eventList: List<CalendarEvent<Any>>, noEvent: CalendarEvent<Any>) {
 
         for (weekItem in weeks) {
             for (dayItem in weekItem.dayItems) {
@@ -121,10 +121,11 @@ class CalendarManager
                         val copy = event.copy()
 
                         val dayInstance = Calendar.getInstance(locale)
-                        dayInstance.setTime(dayItem.date)
+                        dayInstance.time = dayItem.date
                         copy.setInstanceDay(dayInstance)
                         copy.dayReference = (dayItem)
                         copy.weekReference = (weekItem)
+                        copy.event = event.event;
                         dayItem.setHasEvents(event.hasEvent())
                         // add instances in chronological order
                         events.add(copy)
@@ -134,7 +135,7 @@ class CalendarManager
                 }
                 if (!isEventForDay) {
                     val dayInstance = Calendar.getInstance(locale)
-                    dayInstance.setTime(dayItem.date)
+                    dayInstance.time = dayItem.date
                     val copy = noEvent.copy()
 
                     copy.setInstanceDay(dayInstance)
@@ -149,7 +150,7 @@ class CalendarManager
         }
     }
 
-    fun addEvents(eventList: List<CalendarEvent>, noEvent: CalendarEvent) {
+    fun addEvents(eventList: List<CalendarEvent<Any>>, noEvent: CalendarEvent<Any>) {
 
         for (weekItem in weeks) {
             for (dayItem in weekItem.dayItems) {
@@ -188,7 +189,7 @@ class CalendarManager
     }
 
 
-    fun addFromStartEvents(eventList: List<CalendarEvent>, noEvent: CalendarEvent) {
+    fun addFromStartEvents(eventList: List<CalendarEvent<Any>>, noEvent: CalendarEvent<Any>) {
 
         val iWeekItems = weeks
         var dayItems: List<IDayItem>
@@ -205,7 +206,7 @@ class CalendarManager
 
                         dayItem.setHasEvents(event.hasEvent())
                         val dayInstance = Calendar.getInstance(locale)
-                        dayInstance.setTime(dayItem.date)
+                        dayInstance.time = dayItem.date
                         copy.setInstanceDay(dayInstance)
                         copy.dayReference = (dayItem)
                         copy.weekReference = (weekItem)
@@ -217,7 +218,7 @@ class CalendarManager
                 }
                 if (!isEventForDay) {
                     val dayInstance = Calendar.getInstance(locale)
-                    dayInstance.setTime(dayItem.date)
+                    dayInstance.time = dayItem.date
                     val copy = noEvent.copy()
 
                     copy.setInstanceDay(dayInstance)
@@ -232,7 +233,7 @@ class CalendarManager
         }
     }
 
-    fun loadCal(lWeeks: MutableList<IWeekItem>, lDays: MutableList<IDayItem>, lEvents: MutableList<CalendarEvent>) {
+    fun loadCal(lWeeks: MutableList<IWeekItem>, lDays: MutableList<IDayItem>, lEvents: MutableList<CalendarEvent<Any>>) {
         weeks = lWeeks
         days = lDays
         events = lEvents
@@ -240,11 +241,11 @@ class CalendarManager
 
     private fun getDayCells(startCal: Calendar): List<IDayItem> {
         val cal = Calendar.getInstance(locale)
-        cal.setTime(startCal.getTime())
+        cal.time = startCal.time
         val dayItems = ArrayList<IDayItem>()
 
         val firstDayOfWeek = cal.get(Calendar.DAY_OF_WEEK)
-        var offset = cal.getFirstDayOfWeek() - firstDayOfWeek
+        var offset = cal.firstDayOfWeek - firstDayOfWeek
         if (offset > 0) {
             offset -= 7
         }
@@ -263,7 +264,7 @@ class CalendarManager
 
     companion object {
 
-        private val LOG_TAG = CalendarManager::class.java!!.getSimpleName()
+        private val LOG_TAG = CalendarManager::class.java.simpleName
 
         var instance: CalendarManager? = null
             private set

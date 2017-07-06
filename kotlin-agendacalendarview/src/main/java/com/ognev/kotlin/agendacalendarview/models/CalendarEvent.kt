@@ -2,7 +2,9 @@ package com.ognev.kotlin.agendacalendarview.models
 
 import java.util.Calendar
 
-interface CalendarEvent {
+interface CalendarEvent<T> {
+
+    var event: T
 
     var isPlaceholder: Boolean
 
@@ -22,13 +24,13 @@ interface CalendarEvent {
 
     val instanceDay: Calendar
 
-    fun setInstanceDay(mInstanceDay: Calendar): BaseCalendarEvent
+    fun setInstanceDay(mInstanceDay: Calendar): CalendarEvent<Any>
 
     var dayReference: IDayItem
 
     var weekReference: IWeekItem
 
-    fun copy(): CalendarEvent
+    fun copy(): CalendarEvent<Any>
 
     fun hasEvent(): Boolean
 

@@ -3,40 +3,46 @@ package com.ognev.kotlin.agendacalendarview.sample
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.ognev.kotlin.agendacalendarview.AgendaCalendarView
+import com.ognev.kotlin.agendacalendarview.CalendarItemLayout
 import com.ognev.kotlin.agendacalendarview.CalendarPickerController
 import com.ognev.kotlin.agendacalendarview.models.BaseCalendarEvent
 import com.ognev.kotlin.agendacalendarview.models.CalendarEvent
 import com.ognev.kotlin.agendacalendarview.models.DayItem
 import com.ognev.kotlin.agendacalendarview.models.IDayItem
 import com.ognev.kotlin.agendacalendarview.CalendarManager
+import com.ognev.kotlin.agendacalendarview.builder.CalendarContentHelper
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
-class MainActivity  : AppCompatActivity(), CalendarPickerController {
+class MainActivity  : AppCompatActivity(), CalendarPickerController, CalendarItemLayout {
+    override fun getEmptyEventLayout(): Int {
+        return R.layout.view_agenda_empty_event
+    }
+
+    override fun getEventLayout(): Int {
+        return R.layout.view_agenda_event
+    }
+
     override fun onDaySelected(dayItem: IDayItem) {
     }
 
-    override fun onEventSelected(event: CalendarEvent) {
+    override fun onEventSelected(event: CalendarEvent<Any>) {
     }
 
     override fun onScrollToDate(calendar: Calendar) {
     }
 
-    private var locale: Locale? = null
-
     private var oldDate: Calendar? = null
-    var eventList: MutableList<CalendarEvent>? = null
+    var eventList: MutableList<CalendarEvent<Any>>? = null
     private lateinit var minDate: Calendar
     private lateinit var maxDate: Calendar
 
-    private lateinit var calendarManager: CalendarManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
 
-        this.locale = Locale.ENGLISH
         oldDate = Calendar.getInstance()
 
         minDate = Calendar.getInstance()
@@ -48,18 +54,17 @@ class MainActivity  : AppCompatActivity(), CalendarPickerController {
         maxDate.add(Calendar.YEAR, 1)
 
         eventList = ArrayList()
-        calendarManager = CalendarManager.getInstance(this)
-        calendarManager.locale = (locale)
-
-        val maxDay = Calendar.getInstance(locale)
-        val maxLength = maxDay.get(Calendar.DAY_OF_MONTH)
-
-        var hasEvent: Boolean
 
         eventList!!.clear()
 
+
+        var contentHelper: CalendarContentHelper = CalendarContentHelper(this, agenda_calendar_view)
+        contentHelper.locale = Locale.ENGLISH;
+        contentHelper.setDateRange(minDate, maxDate)
+
+
         for (i in 1..30) {
-            val day = Calendar.getInstance(locale)
+            val day = Calendar.getInstance(Locale.ENGLISH)
             day.timeInMillis = System.currentTimeMillis();
             day.set(Calendar.DAY_OF_MONTH, i)
 //
@@ -96,13 +101,15 @@ class MainActivity  : AppCompatActivity(), CalendarPickerController {
 //                }
 //
 //            if (!hasEvent) {
-            eventList!!.add(BaseCalendarEvent("", "", "",
+            eventList!!.add(MyCalendarEvent("", "", "",
                     "#f58c27",
                     day, day, true,
-                    DayItem.buildDayItemFromCal(day), false).setInstanceDay(day))
+                    DayItem.buildDayItemFromCal(day), false, SampleEvent()).setInstanceDay(day))
 //            }
 
         }
+
+        contentHelper.loadCalendar(eventList!!, SampleAgendaAdapter(), this, this)
 
 //        if (isFirst) {
 //            isFirst = false
@@ -135,16 +142,11 @@ class MainActivity  : AppCompatActivity(), CalendarPickerController {
 //                //                mAgendaCalendarView.getAgendaView().getAgendaListView().scrollToCurrentDate(oldDate);
 //            } else {
 
-        calendarManager.buildCal(minDate, maxDate)
-        calendarManager.loadEvents(eventList!!, BaseCalendarEvent())
+
         ////////
 
-        val readyEvents = calendarManager.events
-        val readyDays = calendarManager.days
-        val readyWeeks = calendarManager.weeks
-        (agenda_calendar_view as AgendaCalendarView).init(readyWeeks, readyDays, readyEvents, this@MainActivity)
 
-        calendarManager.addEvents(eventList!!, BaseCalendarEvent())
+
 //                (agenda_calendar_view.agendaView.agendaListView.adapter as AgendaAdapter).updateEvents()
 //                if (isSelectedDay) {
 //                    mAgendaCalendarView.getAgendaView().getAgendaListView().scrollToCurrentDate(oldDate)

@@ -15,7 +15,7 @@ class Events {
 
         init {
             this.calendar = Calendar.getInstance()
-            this.calendar.setTime(day.date)
+            this.calendar.time = day.date
         }
     }
 
