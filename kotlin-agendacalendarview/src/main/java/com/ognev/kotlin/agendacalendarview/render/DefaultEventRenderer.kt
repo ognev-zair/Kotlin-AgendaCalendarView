@@ -1,13 +1,7 @@
 package com.ognev.kotlin.agendacalendarview.render
 
-import android.graphics.Color
 import android.support.annotation.NonNull
 import android.view.View
-import android.widget.RelativeLayout
-import android.widget.TextView
-import com.ognev.kotlin.agendacalendarview.CalendarItemLayout
-import com.ognev.kotlin.agendacalendarview.R
-import com.ognev.kotlin.agendacalendarview.models.BaseCalendarEvent
 import com.ognev.kotlin.agendacalendarview.models.CalendarEvent
 
 /**

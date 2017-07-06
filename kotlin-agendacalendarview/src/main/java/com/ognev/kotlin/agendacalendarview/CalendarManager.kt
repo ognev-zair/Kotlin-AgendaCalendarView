@@ -111,40 +111,23 @@ class CalendarManager
         }
     }
 
-    fun loadEvents(eventList: List<CalendarEvent<Any>>, noEvent: CalendarEvent<Any>) {
-
+    fun loadInitialEvents(eventList: List<CalendarEvent<Any>>) {
         for (weekItem in weeks) {
             for (dayItem in weekItem.dayItems) {
-                var isEventForDay = true
                 for (event in eventList) {
                     if (DateHelper.isBetweenInclusive(dayItem.date, event.startTime, event.endTime)) {
                         val copy = event.copy()
-
                         val dayInstance = Calendar.getInstance(locale)
                         dayInstance.time = dayItem.date
-                        copy.setInstanceDay(dayInstance)
-                        copy.dayReference = (dayItem)
-                        copy.weekReference = (weekItem)
+                        copy.setEventInstanceDay(dayInstance)
+                        copy.dayReference = dayItem
+                        copy.weekReference = weekItem
                         copy.event = event.event;
                         dayItem.setHasEvents(event.hasEvent())
                         // add instances in chronological order
                         events.add(copy)
                         Log.d("visits", event.startTime.toString())
-                        isEventForDay = true
                     }
-                }
-                if (!isEventForDay) {
-                    val dayInstance = Calendar.getInstance(locale)
-                    dayInstance.time = dayItem.date
-                    val copy = noEvent.copy()
-
-                    copy.setInstanceDay(dayInstance)
-                    copy.dayReference= (dayItem)
-                    copy.weekReference = (weekItem)
-                    copy.setLocation("")
-                    copy.setTitle(context.getResources().getString(R.string.agenda_event_no_events))
-                    copy.isPlaceholder = (true)
-                    events.add(copy)
                 }
             }
         }
@@ -161,9 +144,9 @@ class CalendarManager
 
                         val dayInstance = Calendar.getInstance(locale)
                         dayInstance.setTime(dayItem.date)
-                        copy.setInstanceDay(dayInstance)
-                        copy.dayReference = (dayItem)
-                        copy.weekReference = (weekItem)
+//                        copy.setInstanceDay(dayInstance)
+//                        copy.dayReference = (dayItem)
+//                        copy.weekReference = (weekItem)
                         dayItem.setHasEvents(event.hasEvent())
                         // add instances in chronological order
                         events.add(copy)
@@ -176,12 +159,12 @@ class CalendarManager
                     dayInstance.setTime(dayItem.date)
                     val copy = noEvent.copy()
 
-                    copy.setInstanceDay(dayInstance)
-                    copy.dayReference = (dayItem)
-                    copy.weekReference = (weekItem)
-                    copy.setLocation("")
-                    copy.setTitle(context.getResources().getString(R.string.agenda_event_no_events))
-                    copy.isPlaceholder = (true)
+//                    copy.setInstanceDay(dayInstance)
+//                    copy.dayReference = (dayItem)
+//                    copy.weekReference = (weekItem)
+//                    copy.setLocation("")
+//                    copy.setTitle(context.getResources().getString(R.string.agenda_event_no_events))
+//                    copy.isPlaceholder = (true)
                     events.add(copy)
                 }
             }
@@ -207,7 +190,7 @@ class CalendarManager
                         dayItem.setHasEvents(event.hasEvent())
                         val dayInstance = Calendar.getInstance(locale)
                         dayInstance.time = dayItem.date
-                        copy.setInstanceDay(dayInstance)
+                        copy.setEventInstanceDay(dayInstance)
                         copy.dayReference = (dayItem)
                         copy.weekReference = (weekItem)
                         // add instances in chronological order
@@ -221,12 +204,9 @@ class CalendarManager
                     dayInstance.time = dayItem.date
                     val copy = noEvent.copy()
 
-                    copy.setInstanceDay(dayInstance)
+                    copy.setEventInstanceDay(dayInstance)
                     copy.dayReference = (dayItem)
                     copy.weekReference = (weekItem)
-                    copy.setLocation("")
-                    copy.setTitle(context.getResources().getString(R.string.agenda_event_no_events))
-                    copy.isPlaceholder = (true)
                     events.add(copy)
                 }
             }

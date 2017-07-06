@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import com.ognev.kotlin.agendacalendarview.CalendarItemLayout
 import com.ognev.kotlin.agendacalendarview.CalendarManager
 import com.ognev.kotlin.agendacalendarview.models.CalendarEvent
 import com.ognev.kotlin.agendacalendarview.render.DefaultEventRenderer
@@ -28,7 +27,6 @@ class AgendaAdapter
 
     private val mRenderers = ArrayList<EventRenderer<CalendarEvent<Any>>>()
     private var visitClickListener: View.OnClickListener? = null
-    private lateinit var calendarItemLayout: CalendarItemLayout
 
     // endregion
 
@@ -106,9 +104,6 @@ class AgendaAdapter
         return convertView
     }
 
-    fun setCalendarLayouts(calendarItemLayout: CalendarItemLayout) {
-        this.calendarItemLayout = calendarItemLayout;
-    }
 
     fun setOnVisitClickListener(visitClickListener: View.OnClickListener) {
         this.visitClickListener = visitClickListener

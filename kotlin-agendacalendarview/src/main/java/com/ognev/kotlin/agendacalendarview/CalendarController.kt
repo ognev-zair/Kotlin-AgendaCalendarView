@@ -5,7 +5,12 @@ import com.ognev.kotlin.agendacalendarview.models.IDayItem
 
 import java.util.Calendar
 
-interface CalendarPickerController {
+interface CalendarController {
+
+    fun getEmptyEventLayout(): Int
+
+    fun getEventLayout() : Int
+
     fun onDaySelected(dayItem: IDayItem)
 
     fun onEventSelected(event: CalendarEvent<Any>)

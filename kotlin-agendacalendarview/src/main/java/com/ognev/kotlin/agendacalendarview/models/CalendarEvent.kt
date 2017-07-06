@@ -6,25 +6,13 @@ interface CalendarEvent<T> {
 
     var event: T
 
-    var isPlaceholder: Boolean
-
-    val time: String
-
-    fun setLocation(mLocation: String)
-
-    var id: Long
-
     var startTime: Calendar
 
     var endTime: Calendar
 
-    val name: String
-
-    fun setTitle(mTitle: String)
-
     val instanceDay: Calendar
 
-    fun setInstanceDay(mInstanceDay: Calendar): CalendarEvent<Any>
+    fun setEventInstanceDay(instanceDay: Calendar) : CalendarEvent<Any>
 
     var dayReference: IDayItem
 
@@ -34,5 +22,4 @@ interface CalendarEvent<T> {
 
     fun hasEvent(): Boolean
 
-    val status: Int
 }
