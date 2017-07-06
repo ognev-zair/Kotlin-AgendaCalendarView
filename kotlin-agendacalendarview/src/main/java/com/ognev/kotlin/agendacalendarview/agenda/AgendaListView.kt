@@ -13,24 +13,19 @@ import java.util.Calendar
  */
 class AgendaListView : StickyListHeadersListView {
 
-    // region Constructors
-
     constructor(context: Context) : super(context) {}
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {}
 
     constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {}
 
-    // endregion
-
-    // region Public methods
 
     fun scrollToCurrentDate(today: Calendar) {
         val events = CalendarManager.instance!!.events
 
         var toIndex = 0
         for (i in 0..events.size - 1) {
-            if (DateHelper.sameDate(today, events.get(i).instanceDay)) {
+            if (DateHelper.sameDate(today, events[i].instanceDay)) {
                 toIndex = i
                 break
             }
@@ -40,5 +35,4 @@ class AgendaListView : StickyListHeadersListView {
         post { setSelection(finalToIndex) }
     }
 
-    // endregion
 }

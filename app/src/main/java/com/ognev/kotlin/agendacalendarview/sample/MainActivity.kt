@@ -70,8 +70,7 @@ class MainActivity  : AppCompatActivity(), CalendarController {
             day.set(Calendar.DAY_OF_MONTH, i)
 
             eventList!!.add(MyCalendarEvent(day, day,
-                    DayItem.buildDayItemFromCal(day),
-                    false, SampleEvent()).setEventInstanceDay(day))
+                    DayItem.buildDayItemFromCal(day), SampleEvent()).setEventInstanceDay(day))
 
         }
 
