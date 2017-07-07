@@ -5,12 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.TextView
 import com.ognev.kotlin.agendacalendarview.CalendarManager
+import com.ognev.kotlin.agendacalendarview.R
 import com.ognev.kotlin.agendacalendarview.models.CalendarEvent
 import com.ognev.kotlin.agendacalendarview.render.EventAdapter
+import com.ognev.kotlin.agendacalendarview.utils.DateHelper
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter
-
-import java.util.ArrayList
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * Adapter for the agenda, implements StickyListHeadersAdapter.
@@ -31,14 +34,22 @@ class AgendaAdapter
 
     override
     fun getHeaderView(position: Int, convertView: View?, parent: ViewGroup): View {
-        var agendaHeaderView: AgendaHeaderView? = convertView as AgendaHeaderView?
+        var agendaHeaderView = convertView
+        var eventAdapter: EventAdapter<CalendarEvent> ? = mRenderers[0]
+
         if (agendaHeaderView == null) {
-            agendaHeaderView = AgendaHeaderView.inflate(parent)
+            agendaHeaderView = LayoutInflater.from(parent.context).
+                    inflate(eventAdapter!!.getHeaderLayout(), parent, false)
         }
-        if (!CalendarManager.instance!!.events.isEmpty())
-            agendaHeaderView.setDay(getItem(position).instanceDay, mCurrentDayColor)
-        return agendaHeaderView
+
+        if (!CalendarManager.instance!!.events.isEmpty()) {
+            eventAdapter!!.getHeaderItemView(agendaHeaderView!!, getItem(position).instanceDay)
+        }
+
+        return agendaHeaderView!!
     }
+
+
 
     override
     fun getHeaderId(position: Int): Long {

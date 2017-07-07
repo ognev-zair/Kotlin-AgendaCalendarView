@@ -38,7 +38,6 @@
 	<color name="amethyst">#9c56b8</color>
 	<color name="golden">#e4b501</color>
 	<color name="pale_brown">#b29077</color>
-	<color name="darkish_pink">#e14e6d</color>
 	<color name="dusty_orange">#f58c27</color>
 	<color name="no_reception">#7685a1</color>
 
@@ -47,7 +46,6 @@
 	<color name="azure_transparent">#1a1badf8</color>
 	<color name="golden_transparent">#1ae4b501</color>
 	<color name="pale_brown_transparent">#1ab29077</color>
-	<color name="darkish_pink_transparent">#1ae14e6d</color>
 	<color name="dusty_orange_transparent">#1af58c27</color>
 	<color name="no_reception_transparent">#1a7685a1</color>
 

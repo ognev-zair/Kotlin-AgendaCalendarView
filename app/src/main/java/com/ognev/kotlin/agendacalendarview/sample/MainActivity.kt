@@ -33,9 +33,6 @@ class MainActivity  : AppCompatActivity(), CalendarController {
     override fun onDaySelected(dayItem: IDayItem) {
     }
 
-//    override fun onEventSelected(event: CalendarEvent) {
-//    }
-
     fun isSameDays(oldDate: Calendar, newDate: Calendar): Boolean {
         return oldDate.get(Calendar.DAY_OF_MONTH) == newDate.get(Calendar.DAY_OF_MONTH)
     }
@@ -61,7 +58,6 @@ class MainActivity  : AppCompatActivity(), CalendarController {
 
         oldDate = calendar
 
-
     }
 
 
@@ -81,7 +77,7 @@ class MainActivity  : AppCompatActivity(), CalendarController {
 
         eventList = ArrayList()
 
-        contentManager = CalendarContentManager(this, agenda_calendar_view, SampleEventAgendaAdapter())
+        contentManager = CalendarContentManager(this, agenda_calendar_view, SampleEventAgendaAdapter(applicationContext))
 
         contentManager.locale = Locale.ENGLISH
         contentManager.setDateRange(minDate, maxDate)
@@ -149,8 +145,11 @@ class MainActivity  : AppCompatActivity(), CalendarController {
                         day.set(Calendar.DAY_OF_MONTH, i)
                         if(endMonth == 11)
                             day.set(Calendar.YEAR, day.get(Calendar.YEAR) - 1)
+
                         eventList!!.add(MyCalendarEvent(day, day,
-                                DayItem.buildDayItemFromCal(day), SampleEvent("Awesome ".plus(i), "Event ".plus(i))).setEventInstanceDay(day))
+                                DayItem.buildDayItemFromCal(day),
+                                SampleEvent("Awesome ".plus(i), "Event ".plus(i)))
+                                .setEventInstanceDay(day))
                     }
                 } else {
                     if(endMonth >= 11)
@@ -171,8 +170,21 @@ class MainActivity  : AppCompatActivity(), CalendarController {
                         if(endMonth == 0)
                         day.set(Calendar.YEAR, day.get(Calendar.YEAR) + 1)
 
+                        if(i % 4 == 0) {
+                            val day1 = Calendar.getInstance()
+                            day1.timeInMillis = System.currentTimeMillis()
+                            day1.set(Calendar.MONTH, endMonth)
+                            day1.set(Calendar.DAY_OF_MONTH, i)
+                            eventList!!.add(MyCalendarEvent(day, day,
+                                    DayItem.buildDayItemFromCal(day),
+                                    SampleEvent("Awesome ".plus(i), "Event ".plus(i)))
+                                    .setEventInstanceDay(day))
+                        }
+
                         eventList!!.add(MyCalendarEvent(day, day,
-                                DayItem.buildDayItemFromCal(day), SampleEvent("Awesome ".plus(i), "Event ".plus(i))).setEventInstanceDay(day))
+                                DayItem.buildDayItemFromCal(day),
+                                SampleEvent("Awesome ".plus(i), "Event ".plus(i)))
+                                .setEventInstanceDay(day))
 
                     }
                 }

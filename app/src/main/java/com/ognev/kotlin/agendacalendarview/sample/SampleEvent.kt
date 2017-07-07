@@ -1,9 +1,9 @@
 package com.ognev.kotlin.agendacalendarview.sample
 
-import android.accounts.AuthenticatorDescription
 
 /**
- * Created by ognev on 7/6/17.
+ * Custom Sample Event which can be obtained and parsed
+ * to this class from backend
  */
 class SampleEvent(name: String, description: String) {
     var id: Long = 0

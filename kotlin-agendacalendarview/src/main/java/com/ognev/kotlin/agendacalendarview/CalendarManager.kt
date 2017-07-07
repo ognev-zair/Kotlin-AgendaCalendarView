@@ -15,12 +15,8 @@ import java.util.*
  * As the app is using several views, we want to keep everything in one place.
  */
 class CalendarManager
-// region Constructors
 
 (val context: Context) {
-    // endregion
-
-    // region Getters/Setters
 
     var locale: Locale? = null
         set(locale) {
@@ -230,7 +226,6 @@ class CalendarManager
         }
         cal.add(Calendar.DATE, offset)
 
-        //    Log.d(LOG_TAG, String.format("Buiding row week starting at %s", cal.getTime()));
         for (c in 0..6) {
             val dayItem = DayItem.buildDayItemFromCal(cal)
             dayItems.add(dayItem)

@@ -34,7 +34,7 @@
             android:id="@+id/layout_item_reception"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/reception_gradient_azure"
+            android:background="@drawable/gradient_azure"
             android:gravity="center_vertical"
             android:orientation="vertical"
             android:paddingBottom="7dp"
