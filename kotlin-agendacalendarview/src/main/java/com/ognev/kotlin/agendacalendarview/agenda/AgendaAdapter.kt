@@ -101,7 +101,7 @@ class AgendaAdapter
                 .inflate(eventRenderer.getEventLayout(CalendarManager.instance!!.events[position].hasEvent()), parent, false)
 
 
-        eventRenderer.render(convertView, event)
+        eventRenderer.render(convertView, event, position)
 
         convertView.tag = position
         convertView.setOnClickListener(visitClickListener)

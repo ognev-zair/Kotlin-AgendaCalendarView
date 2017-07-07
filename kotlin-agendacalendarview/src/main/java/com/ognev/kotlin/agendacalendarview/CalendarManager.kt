@@ -152,7 +152,7 @@ class CalendarManager
                         // add instances in chronological order
                         events.add(copy)
                         Log.d("visits", event.startTime.toString())
-                        isEventForDay = true
+                        isEventForDay = event.hasEvent()
                     }
                 }
                 if (!isEventForDay) {
@@ -160,12 +160,9 @@ class CalendarManager
                     dayInstance.setTime(dayItem.date)
                     val copy = noEvent.copy()
 
-//                    copy.setInstanceDay(dayInstance)
-//                    copy.dayReference = (dayItem)
-//                    copy.weekReference = (weekItem)
-//                    copy.setLocation("")
-//                    copy.setTitle(context.getResources().getString(R.string.agenda_event_no_events))
-//                    copy.isPlaceholder = (true)
+                    copy.setEventInstanceDay(dayInstance)
+                    copy.dayReference = (dayItem)
+                    copy.weekReference = (weekItem)
                     events.add(copy)
                 }
             }
@@ -198,7 +195,7 @@ class CalendarManager
                         // add instances in chronological order
                         events.add(0, copy)
                         Log.d("visits", event.startTime.toString())
-                        isEventForDay = true
+                        isEventForDay = event.hasEvent()
                     }
                 }
                 if (!isEventForDay) {

@@ -4,6 +4,9 @@ import android.os.AsyncTask
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.AdapterView
+import android.widget.Toast
 import com.ognev.kotlin.agendacalendarview.CalendarController
 import com.ognev.kotlin.agendacalendarview.CalendarManager
 import com.ognev.kotlin.agendacalendarview.models.CalendarEvent
@@ -31,8 +34,8 @@ class MainActivity  : AppCompatActivity(), CalendarController {
     override fun onDaySelected(dayItem: IDayItem) {
     }
 
-    override fun onEventSelected(event: CalendarEvent) {
-    }
+//    override fun onEventSelected(event: CalendarEvent) {
+//    }
 
     fun isSameDays(oldDate: Calendar, newDate: Calendar): Boolean {
         return oldDate.get(Calendar.DAY_OF_MONTH) == newDate.get(Calendar.DAY_OF_MONTH)
@@ -91,13 +94,17 @@ class MainActivity  : AppCompatActivity(), CalendarController {
             day.set(Calendar.DAY_OF_MONTH, i)
 
             eventList!!.add(MyCalendarEvent(day, day,
-                    DayItem.buildDayItemFromCal(day), SampleEvent()).setEventInstanceDay(day))
+                    DayItem.buildDayItemFromCal(day), null).setEventInstanceDay(day))
 
         }
 
 
         contentManager.loadItemsFromStart(eventList!!)
+        agenda_calendar_view.agendaView.agendaListView.setOnItemClickListener({ parent: AdapterView<*>, view: View, position: Int,
+                                                                                id: Long ->
 
+            Toast.makeText(view.context, "item: ".plus(position), Toast.LENGTH_SHORT ).show()
+            /*calendarController!!.onEventSelected(CalendarManager.instance!!.events[position]) */})
 
     }
 
@@ -117,6 +124,8 @@ class MainActivity  : AppCompatActivity(), CalendarController {
             }
 
             override fun doInBackground(vararg params: Unit) {
+                Thread.sleep(3000) // simulating requesting json via rest api
+
                 if(addFromStart) {
                      if(startMonth == 0)
                         startMonth = 11
@@ -137,7 +146,7 @@ class MainActivity  : AppCompatActivity(), CalendarController {
                         if(endMonth == 11)
                             day.set(Calendar.YEAR, day.get(Calendar.YEAR) - 1)
                         eventList!!.add(MyCalendarEvent(day, day,
-                                DayItem.buildDayItemFromCal(day), SampleEvent()).setEventInstanceDay(day))
+                                DayItem.buildDayItemFromCal(day), SampleEvent("Awesome ".plus(i), "Event ".plus(i))).setEventInstanceDay(day))
                     }
                 } else {
                     if(endMonth >= 11)
@@ -153,17 +162,16 @@ class MainActivity  : AppCompatActivity(), CalendarController {
                     for(i in 1..endMonthCal.getActualMaximum(Calendar.DAY_OF_MONTH)) {
                         val day = Calendar.getInstance(Locale.ENGLISH)
                         day.timeInMillis = System.currentTimeMillis();
-                        day.set(Calendar.MONTH, endMonth!!)
+                        day.set(Calendar.MONTH, endMonth)
                         day.set(Calendar.DAY_OF_MONTH, i)
                         if(endMonth == 0)
                         day.set(Calendar.YEAR, day.get(Calendar.YEAR) + 1)
 
                         eventList!!.add(MyCalendarEvent(day, day,
-                                DayItem.buildDayItemFromCal(day), SampleEvent()).setEventInstanceDay(day))
+                                DayItem.buildDayItemFromCal(day), SampleEvent("Awesome ".plus(i), "Event ".plus(i))).setEventInstanceDay(day))
 
                     }
                 }
-              Thread.sleep(3000)
 
             }
 
@@ -172,6 +180,8 @@ class MainActivity  : AppCompatActivity(), CalendarController {
                 contentManager.loadItemsFromStart(eventList!!)
                 else
                     contentManager.loadFromEndCalendar(eventList!!)
+
+
             }
         }.execute()
     }

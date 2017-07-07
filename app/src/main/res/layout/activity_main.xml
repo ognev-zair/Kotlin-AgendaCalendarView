@@ -15,7 +15,6 @@
         agendaCalendar:calendarDayTextColor="@color/main_blue"
         agendaCalendar:calendarHeaderColor="@color/main_blue"
         agendaCalendar:calendarPastDayTextColor="@android:color/darker_gray"
-        agendaCalendar:fabColor="@color/theme_accent"
         tools:layout_editor_absoluteY="8dp"
         tools:layout_editor_absoluteX="8dp" />
 </FrameLayout>

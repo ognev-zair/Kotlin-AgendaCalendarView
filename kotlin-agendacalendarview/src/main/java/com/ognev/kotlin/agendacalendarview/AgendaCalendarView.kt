@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.AbsListView
 import android.widget.AdapterView
 import android.widget.FrameLayout
+import android.widget.Toast
 import com.ognev.kotlin.agendacalendarview.agenda.AgendaAdapter
 import com.ognev.kotlin.agendacalendarview.agenda.AgendaView
 import com.ognev.kotlin.agendacalendarview.calendar.CalendarView
@@ -75,9 +76,6 @@ class AgendaCalendarView : FrameLayout, StickyListHeadersListView.OnStickyHeader
             //      mFloatingActionButton.startAnimation(rotate);
         }
     }
-    private var visitClickListener: OnClickListener? = null
-
-    // region Constructors
 
     constructor(context: Context) : super(context) {}
 
@@ -99,9 +97,6 @@ class AgendaCalendarView : FrameLayout, StickyListHeadersListView.OnStickyHeader
         setAlpha(0f)
     }
 
-    // endregion
-
-    // region Class - View
 
     override
     protected fun onFinishInflate() {
@@ -115,12 +110,12 @@ class AgendaCalendarView : FrameLayout, StickyListHeadersListView.OnStickyHeader
         mCalendarView!!.findViewById(R.id.cal_day_names).setBackgroundColor(mCalendarHeaderColor)
         mCalendarView!!.findViewById(R.id.list_week).setBackgroundColor(mCalendarBackgroundColor)
 
-        agendaView.agendaListView.setOnItemClickListener({ parent: AdapterView<*>, view: View, position: Int, id: Long -> calendarController!!.onEventSelected(CalendarManager.instance!!.events[position]) })
+
 
         BusProvider.instance.toObserverable()
                 .subscribe({ event ->
                     if (event is Events.DayClickedEvent) {
-                        calendarController!!.onDaySelected((event as Events.DayClickedEvent).day)
+                        calendarController!!.onDaySelected((event).day)
                     } else if (event is Events.EventsFetched) {
                         val alphaAnimation = ObjectAnimator.ofFloat(this, "alpha", getAlpha(), 1f).setDuration(500)
                         alphaAnimation.addListener(object : Animator.AnimatorListener {
@@ -131,19 +126,7 @@ class AgendaCalendarView : FrameLayout, StickyListHeadersListView.OnStickyHeader
 
                             override
                             fun onAnimationEnd(animation: Animator) {
-                                //                long fabAnimationDelay = 500;
-                                //                // Just after setting the alpha from this view to 1, we hide the fab.
-                                //                // It will reappear as soon as the user is scrolling the Agenda view.
-                                //                new Handler().postDelayed(() -> {
-                                ////                  mFloatingActionButton.hide();
-                                //                  mAgendaListViewScrollTracker = new ListViewScrollTracker(mAgendaView.getAgendaListView());
-                                //                  mAgendaView.getAgendaListView().setOnScrollListener(mAgendaScrollListener);
-                                ////                  mFloatingActionButton.setOnClickListener((v) -> {
-                                //                    mAgendaView.translateList(0);
-                                //                    mAgendaView.getAgendaListView().scrollToCurrentDate(CalendarManager.getInstance().getToday());
-                                ////                    new Handler().postDelayed(() -> mFloatingActionButton.hide(), fabAnimationDelay);
-                                ////                  });
-                                //                }, fabAnimationDelay);
+
                             }
 
                             override
@@ -161,13 +144,9 @@ class AgendaCalendarView : FrameLayout, StickyListHeadersListView.OnStickyHeader
                 })
     }
 
-    // endregion
-
-    // region Interface - StickyListHeadersListView.OnStickyHeaderChangedListener
 
     override
     fun onStickyHeaderChanged(stickyListHeadersListView: StickyListHeadersListView, header: View, position: Int, headerId: Long) {
-        //    Log.d(LOG_TAG, String.format("onStickyHeaderChanged, position = %d, headerId = %d", position, headerId));
 
         if (CalendarManager.instance!!.events.size > 0) {
             val event = CalendarManager.instance!!.events[position]
@@ -178,29 +157,6 @@ class AgendaCalendarView : FrameLayout, StickyListHeadersListView.OnStickyHeader
         }
     }
 
-    // endregion
-
-    // region Public methods
-
-    fun init(eventList: MutableList<CalendarEvent>, minDate: Calendar, maxDate: Calendar, locale: Locale, calendarController: CalendarController) {
-
-        CalendarManager.getInstance(context).buildCal(minDate, maxDate)
-
-        // Feed our views with weeks list and events
-        mCalendarView!!.init(CalendarManager.getInstance(context), mCalendarDayTextColor, mCalendarCurrentDayColor, mCalendarPastDayTextColor)
-
-        // Load agenda events and scroll to current day
-        val agendaAdapter = AgendaAdapter(mAgendaCurrentDayTextColor)
-        agendaView.agendaListView.adapter = agendaAdapter
-        agendaView.agendaListView.setOnStickyHeaderChangedListener(this)
-
-        CalendarManager.instance!!.loadInitialEvents(eventList)
-        BusProvider.instance.send(Events.EventsFetched())
-        //    Log.d(LOG_TAG, "CalendarEventTask finished");
-
-        // add default event renderer
-        addEventRenderer(DefaultEventRenderer())
-    }
 
     fun setCallbacks(calendarController: CalendarController) {
         this.calendarController = calendarController
@@ -232,14 +188,4 @@ class AgendaCalendarView : FrameLayout, StickyListHeadersListView.OnStickyHeader
         adapter.addEventRenderer(renderer as EventRenderer<CalendarEvent>)
     }
 
-    fun setOnVisitClickListener(visitClickListener: OnClickListener) {
-        this.visitClickListener = visitClickListener
-    }
-
-    companion object {
-
-        private val LOG_TAG = AgendaCalendarView::class.java.simpleName
-    }
-
-    // endregion
 }

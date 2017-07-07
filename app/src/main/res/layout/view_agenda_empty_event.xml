@@ -4,10 +4,12 @@
               android:background="@color/white"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
+	android:clickable="true"
+	android:focusable="true"
 		>
 
 	<TextView
-			android:text="@string/no_receptions"
+			android:text="@string/no_events"
 			android:textSize="13sp"
 			android:padding="16dp"
 			android:background="@color/white"

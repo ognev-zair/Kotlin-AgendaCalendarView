@@ -3,6 +3,7 @@ package com.ognev.kotlin.agendacalendarview.render
 import android.support.annotation.NonNull
 import android.view.View
 import com.ognev.kotlin.agendacalendarview.models.CalendarEvent
+import java.text.FieldPosition
 
 /**
  * Class helping to inflate our default layout in the AgendaAdapter
@@ -14,7 +15,7 @@ open class DefaultEventRenderer : EventRenderer<CalendarEvent>() {
     }
 
     override
-    fun render(@NonNull view: View, @NonNull event: CalendarEvent) {
+    fun render(@NonNull view: View, @NonNull event: CalendarEvent, position: Int) {
 
     }
 

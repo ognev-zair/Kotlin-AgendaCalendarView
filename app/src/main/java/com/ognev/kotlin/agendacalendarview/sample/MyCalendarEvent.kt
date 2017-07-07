@@ -12,7 +12,7 @@ class MyCalendarEvent: BaseCalendarEvent {
 
     override lateinit var startTime: Calendar
     override lateinit var endTime: Calendar
-    override lateinit var event: Any
+    override var event: Any? = null
 
     override lateinit var instanceDay: Calendar
 
@@ -38,7 +38,7 @@ class MyCalendarEvent: BaseCalendarEvent {
     constructor(startTime: Calendar,
                 endTime: Calendar,
                 dayItem: DayItem,
-                event: SampleEvent)  {
+                event: SampleEvent?)  {
         this.startTime = startTime
         this.endTime = endTime
         this.dayReference = dayItem

@@ -13,7 +13,7 @@ interface CalendarController {
 
     fun onDaySelected(dayItem: IDayItem)
 
-    fun onEventSelected(event: CalendarEvent)
+//    fun onEventSelected(event: CalendarEvent)
 
     fun onScrollToDate(calendar: Calendar)
 }
