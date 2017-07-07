@@ -48,7 +48,7 @@ class CalendarContentManager(
         else {
            calendarManager.addFromStartEvents(eventList, BaseCalendarEvent())
            (agendaCalendarView.agendaView.agendaListView.adapter as AgendaAdapter).updateEvents()
-           agendaCalendarView.agendaView.agendaListView.setSelection(eventList.size - 1)
+           agendaCalendarView.agendaView.agendaListView.scrollToCurrentDate(calendarManager.currentSelectedDay)
        }
     }
 
@@ -57,10 +57,10 @@ class CalendarContentManager(
         initialiseCalendar(eventList)
         else {
             calendarManager.addEvents(eventList, BaseCalendarEvent())
-            (agendaCalendarView.agendaView.agendaListView.adapter as AgendaAdapter).updateEvents()
+            (agendaCalendarView.agendaView.agendaListView.adapter as AgendaAdapter).updateEndEvents()
 //            if (isSelectedDay) {
-                agendaCalendarView.agendaView.agendaListView.scrollToCurrentDate(Calendar.getInstance())
-                //                  mAgendaCalendarView.getAgendaView().getAgendaListView().setSelection(day);
+                agendaCalendarView.agendaView.agendaListView.scrollToCurrentDate(calendarManager.currentSelectedDay)
+            //                  mAgendaCalendarView.getAgendaView().getAgendaListView().setSelection(day);
 //                Handler().postDelayed({ isDaySelection = false }, 5000)
 //            }
         }

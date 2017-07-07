@@ -38,6 +38,13 @@ class AgendaAdapter
         notifyDataSetChanged()
     }
 
+    fun updateEndEvents() {
+        //    CalendarManager.getInstance().getEvents().clear();
+
+        notifyDataSetChanged()
+
+    }
+
     //
     //  public void updateExistedEvents(List<CalendarEvent> events) {
     ////    CalendarManager.getInstance().getEvents().addAll(events);

@@ -51,9 +51,9 @@ class CalendarManager
     var events: MutableList<CalendarEvent> = ArrayList()
         private set
 
-    // endregion
 
-    // region Public methods
+    lateinit var currentSelectedDay: Calendar
+    var currentListPosition: Int = 0
 
     fun buildCal(minDate: Calendar?, maxDate: Calendar?) {
         if (minDate == null || maxDate == null) {
@@ -144,9 +144,10 @@ class CalendarManager
 
                         val dayInstance = Calendar.getInstance(locale)
                         dayInstance.setTime(dayItem.date)
-//                        copy.setInstanceDay(dayInstance)
-//                        copy.dayReference = (dayItem)
-//                        copy.weekReference = (weekItem)
+                        copy.setEventInstanceDay(dayInstance)
+                        copy.event = event.event
+                        copy.dayReference = (dayItem)
+                        copy.weekReference = (weekItem)
                         dayItem.setHasEvents(event.hasEvent())
                         // add instances in chronological order
                         events.add(copy)
@@ -192,6 +193,7 @@ class CalendarManager
                         dayInstance.time = dayItem.date
                         copy.setEventInstanceDay(dayInstance)
                         copy.dayReference = (dayItem)
+                        copy.event = event.event
                         copy.weekReference = (weekItem)
                         // add instances in chronological order
                         events.add(0, copy)

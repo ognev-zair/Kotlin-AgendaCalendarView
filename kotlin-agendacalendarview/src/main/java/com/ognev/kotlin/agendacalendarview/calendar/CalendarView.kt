@@ -248,6 +248,9 @@ open class CalendarView : LinearLayout {
             updateItemAtPosition(currentWeekIndex!!.toInt())
         }
 
+        CalendarManager.instance!!.currentSelectedDay = calendar
+        CalendarManager.instance!!.currentListPosition = mCurrentListPosition
+
         return mCurrentListPosition
     }
 
