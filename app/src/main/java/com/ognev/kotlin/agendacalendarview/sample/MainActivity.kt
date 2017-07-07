@@ -111,6 +111,7 @@ class MainActivity  : AppCompatActivity(), CalendarController {
 
     var startMonth: Int =  Calendar.getInstance().get(Calendar.MONTH)
     var endMonth: Int =  Calendar.getInstance().get(Calendar.MONTH)
+
     fun loadItemsAsync(addFromStart: Boolean) {
         object : AsyncTask<Unit, Unit, Unit>() {
 
