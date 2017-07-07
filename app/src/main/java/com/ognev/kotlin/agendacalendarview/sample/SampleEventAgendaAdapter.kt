@@ -4,16 +4,15 @@ import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import com.ognev.kotlin.agendacalendarview.models.CalendarEvent
-import com.ognev.kotlin.agendacalendarview.render.DefaultEventRenderer
-import java.text.FieldPosition
+import com.ognev.kotlin.agendacalendarview.render.DefaultEventAdapter
 
 /**
- * Created by ognev on 7/5/17.
+ * Sample event adapter
  */
 
-class SampleAgendaAdapter: DefaultEventRenderer() {
+class SampleEventAgendaAdapter : DefaultEventAdapter() {
 
-    override fun render(view: View, event: CalendarEvent, position: Int) {
+    override fun getEventItemView(view: View, event: CalendarEvent, position: Int) {
         val myEvent = event as MyCalendarEvent
         val myObject: SampleEvent? = myEvent.event as SampleEvent?
 
@@ -23,12 +22,11 @@ class SampleAgendaAdapter: DefaultEventRenderer() {
 
             (view.findViewById(R.id.description)
                     as TextView).text = myObject.desciption
-
-//            view.setOnClickListener { }
         }
 
-
-//        super.render(view, event, position)
+        view.setOnClickListener {
+            Toast.makeText(view.context, "Item: ".plus(position), Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun getEventLayout(hasEvent: Boolean): Int {

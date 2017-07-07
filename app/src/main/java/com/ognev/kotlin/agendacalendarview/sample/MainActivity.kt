@@ -3,7 +3,6 @@ package com.ognev.kotlin.agendacalendarview.sample
 import android.os.AsyncTask
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.Toast
@@ -46,6 +45,7 @@ class MainActivity  : AppCompatActivity(), CalendarController {
         var lastPosition = agenda_calendar_view.agendaView.agendaListView.lastVisiblePosition + 1
         if (!isSameDays(oldDate as Calendar, calendar)) {
             if (lastPosition == CalendarManager.getInstance(this).events.size) {
+                if(!agenda_calendar_view.isCalendarLoading()) // condition to prevent asynchronous requests
                 loadItemsAsync(false)
             }
         }
@@ -54,6 +54,7 @@ class MainActivity  : AppCompatActivity(), CalendarController {
             val minCal = Calendar.getInstance()
             minCal.set(Calendar.DAY_OF_MONTH, calendar.getActualMinimum(Calendar.DAY_OF_MONTH))
             if (calendar.get(Calendar.DAY_OF_MONTH) == minCal.get(Calendar.DAY_OF_MONTH)) {
+                if(!agenda_calendar_view.isCalendarLoading())  // condition to prevent asynchronous requests
                 loadItemsAsync(true)
             }
         }
@@ -80,7 +81,7 @@ class MainActivity  : AppCompatActivity(), CalendarController {
 
         eventList = ArrayList()
 
-        contentManager = CalendarContentManager(this, agenda_calendar_view, SampleAgendaAdapter())
+        contentManager = CalendarContentManager(this, agenda_calendar_view, SampleEventAgendaAdapter())
 
         contentManager.locale = Locale.ENGLISH
         contentManager.setDateRange(minDate, maxDate)
@@ -120,11 +121,12 @@ class MainActivity  : AppCompatActivity(), CalendarController {
 
             override fun onPreExecute() {
                 super.onPreExecute()
+                agenda_calendar_view.showProgress()
                 eventList!!.clear()
             }
 
             override fun doInBackground(vararg params: Unit) {
-                Thread.sleep(3000) // simulating requesting json via rest api
+                Thread.sleep(2000) // simulating requesting json via rest api
 
                 if(addFromStart) {
                      if(startMonth == 0)

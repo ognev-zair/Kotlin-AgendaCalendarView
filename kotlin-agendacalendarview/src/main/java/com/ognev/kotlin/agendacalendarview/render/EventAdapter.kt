@@ -9,9 +9,9 @@ import java.lang.reflect.ParameterizedType
 /**
  * Base class for helping layout rendering
  */
-abstract class EventRenderer<T> {
+abstract class EventAdapter<T> {
 
-    abstract fun render(view: View, event: T, position: Int)
+    abstract fun getEventItemView(view: View, event: T, position: Int)
 
     @LayoutRes
     abstract fun getEventLayout(isEmptyEvent: Boolean): Int

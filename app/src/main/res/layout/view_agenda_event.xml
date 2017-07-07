@@ -1,76 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-    android:clickable="true"
-    android:focusable="true"
+        android:layout_marginBottom="1dp"
+        android:layout_marginTop="1dp"
         android:background="@color/white"
-        android:orientation="vertical">
+        android:gravity="center"
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="1dp"
-            android:layout_marginTop="1dp"
             android:background="@color/white"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:padding="16dp"
-                android:text="14:30"
-                android:textAllCaps="true"
-                android:textColor="@color/text_light_color"
-                android:textSize="11sp" />
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="@color/reception_status_blue" />
-
-            <RelativeLayout
-                android:id="@+id/layout_item_reception"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/reception_gradient_azure"
-                android:gravity="center_vertical"
-                android:orientation="vertical"
-                android:paddingBottom="7dp"
-                android:paddingLeft="10dp"
-                android:paddingTop="7dp">
-
-                <TextView
-                    android:id="@+id/name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:text="Happy Birthday!!!"
-                    android:textColor="@color/text_color_blue"
-                    android:textSize="14dp" />
-
-                <TextView
-                    android:id="@+id/description"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_below="@id/name"
-                    android:maxLines="2"
-                    android:text="Awesome day!!!"
-                    android:textColor="@color/text_color_blue"
-                    android:textSize="12sp" />
-
-            </RelativeLayout>
-        </LinearLayout>
+            android:padding="16dp"
+            android:text="14:30"
+            android:textAllCaps="true"
+            android:textColor="@color/text_light_color"
+            android:textSize="11sp" />
 
         <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/reception_status_blue" />
+
+        <RelativeLayout
+            android:id="@+id/layout_item_reception"
             android:layout_width="match_parent"
-            android:layout_height="0.3dp"
-            android:layout_marginLeft="53dp"
-            android:background="@color/divider_light_color" />
+            android:layout_height="wrap_content"
+            android:background="@drawable/reception_gradient_azure"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingBottom="7dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="7dp">
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:text="Happy Birthday!!!"
+                android:textColor="@color/text_color_blue"
+                android:textSize="14dp" />
+
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/name"
+                android:maxLines="2"
+                android:text="Awesome day!!!"
+                android:textColor="@color/text_color_blue"
+                android:textSize="12sp" />
+
+        </RelativeLayout>
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.3dp"
+        android:layout_marginLeft="53dp"
+        android:background="@color/divider_light_color" />
+</LinearLayout>
 
 

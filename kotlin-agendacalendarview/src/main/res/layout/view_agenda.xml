@@ -10,6 +10,11 @@
 			>
 	</View>
 
+	<android.support.v4.widget.SwipeRefreshLayout
+		android:id="@+id/refresh_layout"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content">
+
 	<com.ognev.kotlin.agendacalendarview.agenda.AgendaListView
 			android:id="@+id/agenda_listview"
 			android:layout_width="match_parent"
@@ -21,5 +26,6 @@
 			android:scrollbars="none"
 			android:scrollingCache="false"
 			/>
+	</android.support.v4.widget.SwipeRefreshLayout>
 
 </merge>

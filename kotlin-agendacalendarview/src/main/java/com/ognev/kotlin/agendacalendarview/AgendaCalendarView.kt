@@ -4,28 +4,22 @@ import android.animation.Animator
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.support.annotation.NonNull
+import android.support.v4.widget.SwipeRefreshLayout
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.AbsListView
-import android.widget.AdapterView
 import android.widget.FrameLayout
-import android.widget.Toast
 import com.ognev.kotlin.agendacalendarview.agenda.AgendaAdapter
 import com.ognev.kotlin.agendacalendarview.agenda.AgendaView
 import com.ognev.kotlin.agendacalendarview.calendar.CalendarView
 import com.ognev.kotlin.agendacalendarview.models.CalendarEvent
 import com.ognev.kotlin.agendacalendarview.models.IDayItem
 import com.ognev.kotlin.agendacalendarview.models.IWeekItem
-import com.ognev.kotlin.agendacalendarview.render.DefaultEventRenderer
-import com.ognev.kotlin.agendacalendarview.render.EventRenderer
+import com.ognev.kotlin.agendacalendarview.render.DefaultEventAdapter
+import com.ognev.kotlin.agendacalendarview.render.EventAdapter
 import com.ognev.kotlin.agendacalendarview.utils.BusProvider
 import com.ognev.kotlin.agendacalendarview.utils.Events
-import com.ognev.kotlin.agendacalendarview.utils.ListViewScrollTracker
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView
-
-import java.util.Calendar
-import java.util.Locale
 
 /**
  * View holding the agenda and calendar view together.
@@ -45,37 +39,6 @@ class AgendaCalendarView : FrameLayout, StickyListHeadersListView.OnStickyHeader
     private var mCalendarCurrentDayColor: Int = 0
     private var mFabColor: Int = 0
     private var calendarController: CalendarController? = null
-
-    private val mAgendaListViewScrollTracker: ListViewScrollTracker? = null
-    private val mAgendaScrollListener = object : AbsListView.OnScrollListener {
-        internal var mCurrentAngle: Int = 0
-        internal var mMaxAngle = 85
-
-        override
-        fun onScrollStateChanged(view: AbsListView, scrollState: Int) {
-
-        }
-
-        override
-        fun onScroll(view: AbsListView, firstVisibleItem: Int, visibleItemCount: Int, totalItemCount: Int) {
-            val scrollY = mAgendaListViewScrollTracker!!.calculateScrollY(firstVisibleItem, visibleItemCount)
-            //      if (scrollY != 0) {
-            //        mFloatingActionButton.show();
-            //      }
-            //      Log.d(LOG_TAG, String.format("Agenda listView scrollY: %d", scrollY));
-            var toAngle = scrollY / 100
-            if (toAngle > mMaxAngle) {
-                toAngle = mMaxAngle
-            } else if (toAngle < -mMaxAngle) {
-                toAngle = -mMaxAngle
-            }
-            //      RotateAnimation rotate = new RotateAnimation(mCurrentAngle, toAngle, mFloatingActionButton.getWidth() / 2, mFloatingActionButton.getHeight() / 2);
-            //      rotate.setFillAfter(true);
-            mCurrentAngle = toAngle
-
-            //      mFloatingActionButton.startAnimation(rotate);
-        }
-    }
 
     constructor(context: Context) : super(context) {}
 
@@ -103,14 +66,12 @@ class AgendaCalendarView : FrameLayout, StickyListHeadersListView.OnStickyHeader
         super.onFinishInflate()
         mCalendarView = findViewById(R.id.calendar_view) as CalendarView
         agendaView = findViewById(R.id.agenda_view) as AgendaView
-        //    mFloatingActionButton = (FloatingActionButton) findViewById(R.id.floating_action_button);
-        //    ColorStateList csl = new ColorStateList(new int[][]{new int[0]}, new int[]{mFabColor});
-        //    mFloatingActionButton.setBackgroundTintList(csl);
-
         mCalendarView!!.findViewById(R.id.cal_day_names).setBackgroundColor(mCalendarHeaderColor)
         mCalendarView!!.findViewById(R.id.list_week).setBackgroundColor(mCalendarBackgroundColor)
 
-
+//        agendaView.agendaListView.setOnItemClickListener({ parent: AdapterView<*>, view: View, position: Int,
+//                                                           id: Long ->
+//            calendarController!!.onEventSelected(CalendarManager.instance!!.events[position]) })
 
         BusProvider.instance.toObserverable()
                 .subscribe({ event ->
@@ -163,7 +124,7 @@ class AgendaCalendarView : FrameLayout, StickyListHeadersListView.OnStickyHeader
     }
 
     fun init(lWeeks: MutableList<IWeekItem>, lDays: MutableList<IDayItem>, lEvents: MutableList<CalendarEvent>,
-             sampleAgendaAdapter: DefaultEventRenderer) {
+             sampleAgendaAdapter: DefaultEventAdapter) {
 
         CalendarManager.getInstance(context).loadCal(lWeeks, lDays, lEvents)
 
@@ -183,9 +144,21 @@ class AgendaCalendarView : FrameLayout, StickyListHeadersListView.OnStickyHeader
         addEventRenderer(sampleAgendaAdapter)
     }
 
-    fun addEventRenderer(@NonNull renderer: EventRenderer<*>) {
-        val adapter = agendaView.agendaListView.adapter as AgendaAdapter
-        adapter.addEventRenderer(renderer as EventRenderer<CalendarEvent>)
+    fun addEventRenderer(@NonNull eventAdapter: EventAdapter<*>) {
+        val agendaAdapter = agendaView.agendaListView.adapter as AgendaAdapter
+        agendaAdapter.addEventRenderer(eventAdapter as EventAdapter<CalendarEvent>)
+    }
+
+    fun showProgress() {
+        (findViewById(R.id.refresh_layout) as SwipeRefreshLayout).isRefreshing = true
+    }
+
+    fun hideProgress() {
+        (findViewById(R.id.refresh_layout) as SwipeRefreshLayout).isRefreshing = false
+    }
+
+    fun isCalendarLoading(): Boolean {
+        return (findViewById(R.id.refresh_layout) as SwipeRefreshLayout).isRefreshing
     }
 
 }
