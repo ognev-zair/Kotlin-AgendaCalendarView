@@ -25,7 +25,7 @@ class AgendaAdapter
         return CalendarManager.instance!!.events.size
     }
 
-    private val mRenderers = ArrayList<EventRenderer<CalendarEvent<Any>>>()
+    private val mRenderers = ArrayList<EventRenderer<CalendarEvent>>()
     private var visitClickListener: View.OnClickListener? = null
 
     // endregion
@@ -68,7 +68,7 @@ class AgendaAdapter
     }
 
     override
-    fun getItem(position: Int): CalendarEvent<Any> {
+    fun getItem(position: Int): CalendarEvent {
         return CalendarManager.instance!!.events[position]
     }
 
@@ -80,7 +80,7 @@ class AgendaAdapter
     override
     fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var convertView = convertView
-        var eventRenderer: EventRenderer<CalendarEvent<Any>> = mRenderers[0]
+        var eventRenderer: EventRenderer<CalendarEvent> = mRenderers[0]
         val event = getItem(position)
 
         // Search for the correct event renderer
@@ -109,7 +109,7 @@ class AgendaAdapter
         this.visitClickListener = visitClickListener
     }
 
-    fun addEventRenderer(@NonNull renderer: EventRenderer<CalendarEvent<Any>>) {
+    fun addEventRenderer(@NonNull renderer: EventRenderer<CalendarEvent>) {
         mRenderers.add(renderer)
     }
 

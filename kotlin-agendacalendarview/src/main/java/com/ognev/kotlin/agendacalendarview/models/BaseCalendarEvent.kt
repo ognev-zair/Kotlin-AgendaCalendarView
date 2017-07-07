@@ -5,14 +5,16 @@ import java.util.Calendar
 /**
  * Event model class containing the information to be displayed on the agenda view.
  */
-open class BaseCalendarEvent : CalendarEvent<Any> {
+open class BaseCalendarEvent : CalendarEvent {
 
 
     override lateinit var instanceDay: Calendar
     override lateinit var dayReference: IDayItem
     override lateinit var weekReference: IWeekItem
 
-    override fun hasEvent(): Boolean { return false}
+    override fun hasEvent(): Boolean {
+        return false
+    }
 
     override lateinit var startTime: Calendar
     override lateinit var endTime: Calendar
@@ -21,6 +23,11 @@ open class BaseCalendarEvent : CalendarEvent<Any> {
 
     override fun setEventInstanceDay(instanceDay: Calendar): BaseCalendarEvent {
         this.instanceDay = instanceDay
+        this.instanceDay.set(Calendar.HOUR, 0)
+        this.instanceDay.set(Calendar.MINUTE, 0)
+        this.instanceDay.set(Calendar.SECOND, 0)
+        this.instanceDay.set(Calendar.MILLISECOND, 0)
+        this.instanceDay.set(Calendar.AM_PM, 0)
         return this
     }
 //    override fun setInstanceDay(mInstanceDay: Calendar): BaseCalendarEvent {
@@ -35,7 +42,7 @@ open class BaseCalendarEvent : CalendarEvent<Any> {
 
 
     override
-    fun copy(): CalendarEvent<Any> {
+    fun copy(): CalendarEvent {
         return BaseCalendarEvent(this)
     }
 

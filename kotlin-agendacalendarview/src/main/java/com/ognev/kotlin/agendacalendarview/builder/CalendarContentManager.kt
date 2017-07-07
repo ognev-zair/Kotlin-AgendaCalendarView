@@ -42,7 +42,7 @@ class CalendarContentManager(
     }
 
 
-    fun loadItemsFromStart(eventList: MutableList<CalendarEvent<Any>>) {
+    fun loadItemsFromStart(eventList: MutableList<CalendarEvent>) {
        if(!isInitialised)
            initialiseCalendar(eventList)
         else {
@@ -52,7 +52,7 @@ class CalendarContentManager(
        }
     }
 
-    fun loadFromEndCalendar(eventList: MutableList<CalendarEvent<Any>>) {
+    fun loadFromEndCalendar(eventList: MutableList<CalendarEvent>) {
         if(!isInitialised)
         initialiseCalendar(eventList)
         else {
@@ -66,7 +66,7 @@ class CalendarContentManager(
         }
     }
 
-    private fun initialiseCalendar(eventList: MutableList<CalendarEvent<Any>>) {
+    private fun initialiseCalendar(eventList: MutableList<CalendarEvent>) {
         isInitialised = true
         calendarManager.loadInitialEvents(eventList)
         val readyEvents = calendarManager.events

@@ -31,7 +31,7 @@ class MyCalendarEvent: BaseCalendarEvent {
         return this
     }
 
-    constructor(calendarEvent: CalendarEvent<Any>) {
+    constructor(calendarEvent: CalendarEvent) {
     }
 
 

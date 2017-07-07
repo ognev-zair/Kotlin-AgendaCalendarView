@@ -182,7 +182,7 @@ class AgendaCalendarView : FrameLayout, StickyListHeadersListView.OnStickyHeader
 
     // region Public methods
 
-    fun init(eventList: MutableList<CalendarEvent<Any>>, minDate: Calendar, maxDate: Calendar, locale: Locale, calendarController: CalendarController) {
+    fun init(eventList: MutableList<CalendarEvent>, minDate: Calendar, maxDate: Calendar, locale: Locale, calendarController: CalendarController) {
 
         CalendarManager.getInstance(context).buildCal(minDate, maxDate)
 
@@ -206,7 +206,7 @@ class AgendaCalendarView : FrameLayout, StickyListHeadersListView.OnStickyHeader
         this.calendarController = calendarController
     }
 
-    fun init(lWeeks: MutableList<IWeekItem>, lDays: MutableList<IDayItem>, lEvents: MutableList<CalendarEvent<Any>>,
+    fun init(lWeeks: MutableList<IWeekItem>, lDays: MutableList<IDayItem>, lEvents: MutableList<CalendarEvent>,
              sampleAgendaAdapter: DefaultEventRenderer) {
 
         CalendarManager.getInstance(context).loadCal(lWeeks, lDays, lEvents)
@@ -229,7 +229,7 @@ class AgendaCalendarView : FrameLayout, StickyListHeadersListView.OnStickyHeader
 
     fun addEventRenderer(@NonNull renderer: EventRenderer<*>) {
         val adapter = agendaView.agendaListView.adapter as AgendaAdapter
-        adapter.addEventRenderer(renderer as EventRenderer<CalendarEvent<Any>>)
+        adapter.addEventRenderer(renderer as EventRenderer<CalendarEvent>)
     }
 
     fun setOnVisitClickListener(visitClickListener: OnClickListener) {

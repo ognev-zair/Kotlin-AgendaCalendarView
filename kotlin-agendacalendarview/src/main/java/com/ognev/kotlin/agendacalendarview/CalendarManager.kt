@@ -48,7 +48,7 @@ class CalendarManager
     /**
      * List of events instances
      */
-    var events: MutableList<CalendarEvent<Any>> = ArrayList()
+    var events: MutableList<CalendarEvent> = ArrayList()
         private set
 
     // endregion
@@ -111,7 +111,7 @@ class CalendarManager
         }
     }
 
-    fun loadInitialEvents(eventList: List<CalendarEvent<Any>>) {
+    fun loadInitialEvents(eventList: List<CalendarEvent>) {
         for (weekItem in weeks) {
             for (dayItem in weekItem.dayItems) {
                 for (event in eventList) {
@@ -133,7 +133,7 @@ class CalendarManager
         }
     }
 
-    fun addEvents(eventList: List<CalendarEvent<Any>>, noEvent: CalendarEvent<Any>) {
+    fun addEvents(eventList: List<CalendarEvent>, noEvent: CalendarEvent) {
 
         for (weekItem in weeks) {
             for (dayItem in weekItem.dayItems) {
@@ -172,7 +172,7 @@ class CalendarManager
     }
 
 
-    fun addFromStartEvents(eventList: List<CalendarEvent<Any>>, noEvent: CalendarEvent<Any>) {
+    fun addFromStartEvents(eventList: List<CalendarEvent>, noEvent: CalendarEvent) {
 
         val iWeekItems = weeks
         var dayItems: List<IDayItem>
@@ -213,7 +213,7 @@ class CalendarManager
         }
     }
 
-    fun loadCal(lWeeks: MutableList<IWeekItem>, lDays: MutableList<IDayItem>, lEvents: MutableList<CalendarEvent<Any>>) {
+    fun loadCal(lWeeks: MutableList<IWeekItem>, lDays: MutableList<IDayItem>, lEvents: MutableList<CalendarEvent>) {
         weeks = lWeeks
         days = lDays
         events = lEvents

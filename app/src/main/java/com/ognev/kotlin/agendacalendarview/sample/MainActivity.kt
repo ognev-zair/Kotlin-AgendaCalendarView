@@ -23,14 +23,14 @@ class MainActivity  : AppCompatActivity(), CalendarController {
     override fun onDaySelected(dayItem: IDayItem) {
     }
 
-    override fun onEventSelected(event: CalendarEvent<Any>) {
+    override fun onEventSelected(event: CalendarEvent) {
     }
 
     override fun onScrollToDate(calendar: Calendar) {
     }
 
     private var oldDate: Calendar? = null
-    var eventList: MutableList<CalendarEvent<Any>>? = null
+    var eventList: MutableList<CalendarEvent>? = null
     private lateinit var minDate: Calendar
     private lateinit var maxDate: Calendar
 
@@ -51,8 +51,6 @@ class MainActivity  : AppCompatActivity(), CalendarController {
         maxDate.add(Calendar.YEAR, 1)
 
         eventList = ArrayList()
-
-        eventList!!.clear()
 
 
         var contentManager: CalendarContentManager =

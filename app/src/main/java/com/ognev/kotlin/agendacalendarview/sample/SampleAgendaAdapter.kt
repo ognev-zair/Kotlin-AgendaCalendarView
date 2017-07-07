@@ -11,7 +11,7 @@ import com.ognev.kotlin.agendacalendarview.render.DefaultEventRenderer
 
 class SampleAgendaAdapter: DefaultEventRenderer() {
 
-    override fun render(view: View, event: CalendarEvent<Any>) {
+    override fun render(view: View, event: CalendarEvent) {
         val myEvent = event as MyCalendarEvent;
         val myObject:SampleEvent = myEvent.event as SampleEvent
 

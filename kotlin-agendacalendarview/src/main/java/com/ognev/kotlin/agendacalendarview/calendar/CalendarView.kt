@@ -128,7 +128,7 @@ open class CalendarView : LinearLayout {
 
      * @param calendarEvent The event for the selected position in the agenda listview.
      */
-    fun scrollToDate(calendarEvent: CalendarEvent<Any>) {
+    fun scrollToDate(calendarEvent: CalendarEvent) {
         listViewWeeks!!.post({ scrollToPosition(updateSelectedDay(calendarEvent.instanceDay, calendarEvent.dayReference)) })
     }
 

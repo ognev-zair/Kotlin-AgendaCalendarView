@@ -7,14 +7,14 @@ import com.ognev.kotlin.agendacalendarview.models.CalendarEvent
 /**
  * Class helping to inflate our default layout in the AgendaAdapter
  */
-open class DefaultEventRenderer : EventRenderer<CalendarEvent<Any>>() {
+open class DefaultEventRenderer : EventRenderer<CalendarEvent>() {
 
     override fun getEventLayout(isEmptyEvent: Boolean): Int {
         return 0
     }
 
     override
-    fun render(@NonNull view: View, @NonNull event: CalendarEvent<Any>) {
+    fun render(@NonNull view: View, @NonNull event: CalendarEvent) {
 
     }
 
