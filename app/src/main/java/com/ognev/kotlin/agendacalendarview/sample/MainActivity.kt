@@ -50,7 +50,7 @@ class MainActivity  : AppCompatActivity(), CalendarController {
             }
         }
 
-        if (agenda_calendar_view.agendaView.agendaListView.firstVisiblePosition === 0) {
+        if (agenda_calendar_view.agendaView.agendaListView.firstVisiblePosition == 0) {
             val minCal = Calendar.getInstance()
             minCal.set(Calendar.DAY_OF_MONTH, calendar.getActualMinimum(Calendar.DAY_OF_MONTH))
             if (calendar.get(Calendar.DAY_OF_MONTH) == minCal.get(Calendar.DAY_OF_MONTH)) {
@@ -103,9 +103,7 @@ class MainActivity  : AppCompatActivity(), CalendarController {
         contentManager.loadItemsFromStart(eventList!!)
         agenda_calendar_view.agendaView.agendaListView.setOnItemClickListener({ parent: AdapterView<*>, view: View, position: Int,
                                                                                 id: Long ->
-
-            Toast.makeText(view.context, "item: ".plus(position), Toast.LENGTH_SHORT ).show()
-            /*calendarController!!.onEventSelected(CalendarManager.instance!!.events[position]) */})
+            Toast.makeText(view.context, "item: ".plus(position), Toast.LENGTH_SHORT ).show()})
 
     }
 
@@ -115,15 +113,18 @@ class MainActivity  : AppCompatActivity(), CalendarController {
     fun loadItemsAsync(addFromStart: Boolean) {
         object : AsyncTask<Unit, Unit, Unit>() {
 
-
-            private var startMonthCal: Calendar = Calendar.getInstance()
-            private var endMonthCal: Calendar = Calendar.getInstance()
+            private var isRunning: Boolean = false
+            private val startMonthCal: Calendar = Calendar.getInstance()
+            private val endMonthCal: Calendar = Calendar.getInstance()
 
 
             override fun onPreExecute() {
                 super.onPreExecute()
+                if(isRunning)
+                cancel(true)
                 agenda_calendar_view.showProgress()
                 eventList!!.clear()
+                isRunning = true
             }
 
             override fun doInBackground(vararg params: Unit) {
@@ -183,8 +184,10 @@ class MainActivity  : AppCompatActivity(), CalendarController {
                 contentManager.loadItemsFromStart(eventList!!)
                 else
                     contentManager.loadFromEndCalendar(eventList!!)
+                agenda_calendar_view.hideProgress()
 
 
+                isRunning = false
             }
         }.execute()
     }

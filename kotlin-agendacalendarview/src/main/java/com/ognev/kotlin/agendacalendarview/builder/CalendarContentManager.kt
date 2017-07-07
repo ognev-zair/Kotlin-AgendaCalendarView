@@ -59,7 +59,6 @@ class CalendarContentManager(
             (agendaCalendarView.agendaView.agendaListView.adapter as AgendaAdapter).updateEvents()
 //            if (isSelectedDay) {
                 agendaCalendarView.agendaView.agendaListView.scrollToCurrentDate(calendarManager.currentSelectedDay)
-            agendaCalendarView.hideProgress()
             //                  mAgendaCalendarView.getAgendaView().getAgendaListView().setSelection(day);
 //                Handler().postDelayed({ isDaySelection = false }, 5000)
 //            }
