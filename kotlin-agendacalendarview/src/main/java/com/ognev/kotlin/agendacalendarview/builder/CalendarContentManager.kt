@@ -77,8 +77,4 @@ class CalendarContentManager(
     }
 
 
-
-
-
-
 }

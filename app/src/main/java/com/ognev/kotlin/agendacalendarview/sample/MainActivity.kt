@@ -43,56 +43,14 @@ class MainActivity  : AppCompatActivity(), CalendarController {
         var lastPosition = agenda_calendar_view.agendaView.agendaListView.lastVisiblePosition + 1
         if (!isSameDays(oldDate as Calendar, calendar)) {
             if (lastPosition == CalendarManager.getInstance(this).events.size) {
-                //          Calendar startCal = Calendar.getInstance(locale);
-                //          startCal.setTimeInMillis(calendar.getTimeInMillis());
-                //          startCal.set(Calendar.MONTH, startCal.get(Calendar.MONTH));
-
-                val endCal = Calendar.getInstance(Locale.CANADA)
-                endCal.setTimeInMillis(calendar.timeInMillis)
-                //          endCal.set(Calendar.MONTH, endCal.get(Calendar.MONTH) + 1);
-                endCal.add(Calendar.MONTH, 1)
-                endCal.getTime()
-//                Log.d("calendar: ", endCal.get(Calendar.DAY_OF_MONTH)  " " + endCal.get(Calendar.MONTH) + " " + endCal.get(Calendar.YEAR))
-
-                //          long time[] = new long[2];
-                //          time[0] = DateUtil.getStartDatesInMoth(startCal);
-                //          time[1] = DateUtil.getEndDatesInMoth(endCal);
-
                 loadItemsAsync(false)
-
             }
         }
 
         if (agenda_calendar_view.agendaView.agendaListView.firstVisiblePosition === 0) {
             val minCal = Calendar.getInstance()
             minCal.set(Calendar.DAY_OF_MONTH, calendar.getActualMinimum(Calendar.DAY_OF_MONTH))
-            //      if (mAgendaCalendarView.getAgendaView().getAgendaListView().getFirstVisiblePosition() == 0) {
             if (calendar.get(Calendar.DAY_OF_MONTH) == minCal.get(Calendar.DAY_OF_MONTH)) {
-                //        Calendar netCal = Calendar.getInstance(locale);
-                //        netCal.setTimeInMillis(calendar.getTimeInMillis());
-                //        Log.d("visits", "newMoth:" + netCal.get(Calendar.MONTH));
-                //        netCal.set(Calendar.MONTH, netCal.get(Calendar.MONTH));
-                //        oldDate = calendar;
-
-                //        Calendar startCal = Calendar.getInstance();
-                calendar.add(Calendar.MONTH, -1)
-                calendar.time
-                calendar.set(Calendar.DAY_OF_MONTH, calendar.getActualMaximum(Calendar.DAY_OF_MONTH))
-                calendar.time
-                Log.d("calendar: ", calendar.get(Calendar.DAY_OF_MONTH).toString() + " " + calendar.get(Calendar.MONTH) + " " + calendar.get(Calendar.YEAR))
-
-                //        startCal.setTimeInMillis(calendar.getTimeInMillis());
-                //        startCal.set(Calendar.MONTH, startCal.get(Calendar.MONTH) - 1);
-
-                //        Calendar endCal = Calendar.getInstance(locale);
-                //        endCal.setTimeInMillis(calendar.getTimeInMillis());
-                //        endCal.set(Calendar.MONTH, endCal.get(Calendar.MONTH));
-                //
-                //        long time[] = new long[2];
-                //        time[0] = DateUtil.getStartDatesInMoth(startCal);
-                //        time[1] = DateUtil.getEndDatesInMoth(endCal);
-
-                //        getVisits(DateUtil.getStartEndDatesInMoth(netCal), true, false, 0);
                 loadItemsAsync(true)
             }
         }
@@ -108,9 +66,7 @@ class MainActivity  : AppCompatActivity(), CalendarController {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
         oldDate = Calendar.getInstance()
-
         minDate = Calendar.getInstance()
         maxDate = Calendar.getInstance()
 
@@ -120,7 +76,6 @@ class MainActivity  : AppCompatActivity(), CalendarController {
         maxDate.add(Calendar.YEAR, 1)
 
         eventList = ArrayList()
-
 
         contentManager = CalendarContentManager(this, agenda_calendar_view, SampleAgendaAdapter())
 
@@ -146,15 +101,15 @@ class MainActivity  : AppCompatActivity(), CalendarController {
 
     }
 
-
+    var startMonth: Int =  Calendar.getInstance().get(Calendar.MONTH)
+    var endMonth: Int =  Calendar.getInstance().get(Calendar.MONTH)
     fun loadItemsAsync(addFromStart: Boolean) {
         object : AsyncTask<Unit, Unit, Unit>() {
 
 
             private var startMonthCal: Calendar = Calendar.getInstance()
             private var endMonthCal: Calendar = Calendar.getInstance()
-            var startMonth: Int =  Calendar.getInstance().get(Calendar.MONTH)
-            var endMonth: Int = startMonth
+
 
             override fun onPreExecute() {
                 super.onPreExecute()
@@ -163,11 +118,15 @@ class MainActivity  : AppCompatActivity(), CalendarController {
 
             override fun doInBackground(vararg params: Unit) {
                 if(addFromStart) {
-                    startMonth = if(startMonth == 0) 11 else startMonth.dec()
+                     if(startMonth == 0)
+                        startMonth = 11
+                     else startMonth--
 
-                    endMonthCal.set(Calendar.MONTH, endMonth)
-                    if(endMonth == 11)
-                        endMonthCal.set(Calendar.YEAR, endMonthCal.get(Calendar.YEAR).dec())
+                    startMonthCal.set(Calendar.MONTH, startMonth)
+                    if(startMonth == 11) {
+                        var year = startMonthCal.get(Calendar.YEAR);
+                        startMonthCal.set(Calendar.YEAR, ++year)
+                    }
 
 
                     for(i in 1..startMonthCal.getActualMaximum(Calendar.DAY_OF_MONTH)) {
@@ -181,16 +140,20 @@ class MainActivity  : AppCompatActivity(), CalendarController {
                                 DayItem.buildDayItemFromCal(day), SampleEvent()).setEventInstanceDay(day))
                     }
                 } else {
-                    endMonth = if(endMonth >= 11) 0 else endMonth.inc()
+                    if(endMonth >= 11)
+                        endMonth = 0
+                    else endMonth++
 
                     endMonthCal.set(Calendar.MONTH, endMonth)
-                    if(endMonth == 0)
-                        endMonthCal.set(Calendar.YEAR, endMonthCal.get(Calendar.YEAR).inc())
+                    if(endMonth == 0) {
+                        var year = endMonthCal.get(Calendar.YEAR);
+                        endMonthCal.set(Calendar.YEAR, ++year)
+                    }
 
                     for(i in 1..endMonthCal.getActualMaximum(Calendar.DAY_OF_MONTH)) {
                         val day = Calendar.getInstance(Locale.ENGLISH)
                         day.timeInMillis = System.currentTimeMillis();
-                        day.set(Calendar.MONTH, endMonth)
+                        day.set(Calendar.MONTH, endMonth!!)
                         day.set(Calendar.DAY_OF_MONTH, i)
                         if(endMonth == 0)
                         day.set(Calendar.YEAR, day.get(Calendar.YEAR) + 1)
@@ -200,7 +163,7 @@ class MainActivity  : AppCompatActivity(), CalendarController {
 
                     }
                 }
-              Thread.sleep(5000)
+              Thread.sleep(3000)
 
             }
 
