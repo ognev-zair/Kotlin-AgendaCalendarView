@@ -10,7 +10,7 @@
     <com.ognev.kotlin.agendacalendarview.AgendaCalendarView
         android:id="@+id/agenda_calendar_view"
         android:layout_width="match_parent"
-        android:layout_height="551dp"
+        android:layout_height="match_parent"
         agendaCalendar:agendaCurrentDayTextColor="@color/main_blue"
         agendaCalendar:calendarColor="@android:color/white"
         agendaCalendar:calendarCurrentDayTextColor="@color/calendar_text_current_day"
