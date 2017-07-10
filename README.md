@@ -14,9 +14,25 @@ Kotlin-AgendaCalendarView based on [AgendaCalendarView](https://github.com/Tibol
 
 # Usage
 
-Gradle file:
+#Import project 
 
-compile 'com.ognev.kotlin.agendacalendarview:kotlin-agendacalendarview:1.0'
+Gradle:
+--------
+
+```java
+        compile 'com.ognev.kotlin.agendacalendarview:kotlin-agendacalendarview:1.0'
+````
+
+Maven:
+--------
+```java
+        <dependency>
+          <groupId>com.ognev.kotlin.agendacalendarview</groupId>
+          <artifactId>kotlin-agendacalendarview</artifactId>
+          <version>1.0</version>
+          <type>pom</type>
+        </dependency>
+````
 
 Layout xml file
 
