@@ -9,7 +9,7 @@ Kotlin-AgendaCalendarView based on [AgendaCalendarView](https://github.com/Tibol
 Reference-style: 
 ![alt text][logo]
 
-[logo]: https://github.com/ognev-zair/Kotlin-AgendaCalendarView/calendar.gif "Logo Title Text 2"
+[logo]: https://github.com/ognev-zair/Kotlin-AgendaCalendarView/blob/master/calendar.gif
 
 Licence
 -----------
