@@ -6,7 +6,8 @@ Kotlin-AgendaCalendarView based on [AgendaCalendarView](https://github.com/Tibol
 
 
 
-Reference-style: 
+# Demo: 
+
 ![alt text][logo]
 
 [logo]: https://github.com/ognev-zair/Kotlin-AgendaCalendarView/blob/master/calendar.gif
