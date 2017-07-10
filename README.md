@@ -1,9 +1,8 @@
 # Kotlin-AgendaCalendarView
-This project currently in Develompment
-
 Kotlin-AgendaCalendarView based on [AgendaCalendarView](https://github.com/Tibolte/AgendaCalendarView) developed on Java
 
-
+Kotlin-AgendaCalendarView is a calendar widget with list of events
+which can be dynamically filled.  
 
 
 # Demo: 
@@ -14,7 +13,7 @@ Kotlin-AgendaCalendarView based on [AgendaCalendarView](https://github.com/Tibol
 
 # Usage
 
-#Import project 
+# Import project 
 
 Gradle:
 --------
