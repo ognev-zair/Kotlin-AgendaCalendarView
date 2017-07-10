@@ -11,7 +11,6 @@ which can be dynamically filled.
 
 [logo]: https://github.com/ognev-zair/Kotlin-AgendaCalendarView/blob/master/calendar.gif
 
-# Usage
 
 # Import project 
 
@@ -32,6 +31,8 @@ Maven:
           <type>pom</type>
         </dependency>
 ````
+
+# Usage
 
 Layout xml file
 
@@ -200,7 +201,7 @@ Add events to calendar from start
  ```java
         contentManager.loadItemsFromStart(eventList!!)
 ````
-Add events to calendar from start
+Add events to calendar to End of list
 ```java
         contentManager.loadFromEndCalendar(eventList!!)
 ````
