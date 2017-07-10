@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.ognev.kotlin.agendacalendarview.agenda.AgendaHeaderView
+<LinearLayout
 		xmlns:android="http://schemas.android.com/apk/res/android"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
@@ -39,33 +39,7 @@
 					/>
 		</LinearLayout>
 
-		<!--<View-->
-				<!--android:id="@+id/view_day_circle_selected"-->
-				<!--android:layout_width="0dp"-->
-				<!--android:layout_height="0dp"-->
-				<!--android:visibility="gone"-->
-				<!--/>-->
-
-		<!--<LinearLayout-->
-				<!--android:visibility="gone"-->
-				<!--android:layout_width="wrap_content"-->
-				<!--android:layout_height="wrap_content"-->
-				<!--android:layout_gravity="center"-->
-				<!--android:orientation="vertical"-->
-				<!--&gt;-->
-
-
-			<!--<TextView-->
-					<!--android:id="@+id/view_agenda_day_of_week"-->
-					<!--android:text="чт"-->
-					<!--android:layout_width="wrap_content"-->
-					<!--android:layout_height="match_parent"-->
-					<!--android:layout_gravity="center_horizontal"-->
-					<!--android:textSize="10dp"-->
-					<!--/>-->
-
-		<!--</LinearLayout>-->
 
 	</FrameLayout>
 
-</com.ognev.kotlin.agendacalendarview.agenda.AgendaHeaderView>
+</LinearLayout>

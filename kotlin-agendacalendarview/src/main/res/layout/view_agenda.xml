@@ -2,13 +2,23 @@
 <merge
 		xmlns:android="http://schemas.android.com/apk/res/android">
 
+	<LinearLayout
+		android:orientation="vertical"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
+
 	<View
 			android:id="@+id/view_shadow"
 			android:layout_width="match_parent"
-			android:layout_height="5dp"
+			android:layout_height="4dp"
 			android:background="@drawable/shadow"
 			>
 	</View>
+
+	<android.support.v4.widget.SwipeRefreshLayout
+		android:id="@+id/refresh_layout"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content">
 
 	<com.ognev.kotlin.agendacalendarview.agenda.AgendaListView
 			android:id="@+id/agenda_listview"
@@ -21,5 +31,7 @@
 			android:scrollbars="none"
 			android:scrollingCache="false"
 			/>
+	</android.support.v4.widget.SwipeRefreshLayout>
+	</LinearLayout>
 
 </merge>

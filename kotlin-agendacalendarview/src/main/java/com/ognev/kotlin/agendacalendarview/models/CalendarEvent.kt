@@ -4,7 +4,7 @@ import java.util.Calendar
 
 interface CalendarEvent {
 
-    var event: Any
+    var event: Any?
 
     var startTime: Calendar
 

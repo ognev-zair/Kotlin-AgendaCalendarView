@@ -5,66 +5,55 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.TextView
 import com.ognev.kotlin.agendacalendarview.CalendarManager
+import com.ognev.kotlin.agendacalendarview.R
 import com.ognev.kotlin.agendacalendarview.models.CalendarEvent
-import com.ognev.kotlin.agendacalendarview.render.DefaultEventRenderer
-import com.ognev.kotlin.agendacalendarview.render.EventRenderer
+import com.ognev.kotlin.agendacalendarview.render.EventAdapter
+import com.ognev.kotlin.agendacalendarview.utils.DateHelper
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter
-
-import java.util.ArrayList
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * Adapter for the agenda, implements StickyListHeadersAdapter.
  * Days as sections and CalendarEvents as list items.
  */
-class AgendaAdapter
-// region Constructor
+class AgendaAdapter: BaseAdapter(), StickyListHeadersAdapter {
 
-(private val mCurrentDayColor: Int) : BaseAdapter(), StickyListHeadersAdapter {
     override fun getCount(): Int {
         return CalendarManager.instance!!.events.size
     }
 
-    private val mRenderers = ArrayList<EventRenderer<CalendarEvent>>()
-    private var visitClickListener: View.OnClickListener? = null
-
-    // endregion
-
-    // region Public methods
+    private val mRenderers = ArrayList<EventAdapter<CalendarEvent>>()
 
     fun updateEvents() {
-        //    CalendarManager.getInstance().getEvents().clear();
-
         notifyDataSetChanged()
     }
 
-    //
-    //  public void updateExistedEvents(List<CalendarEvent> events) {
-    ////    CalendarManager.getInstance().getEvents().addAll(events);
-    //    CalendarManager.getInstance().getEvents().addAll(events);
-    //    notifyDataSetChanged();
-    //
-    //  }
-
-    // endregion
-
-    // region Interface - StickyListHeadersAdapter
-
     override
     fun getHeaderView(position: Int, convertView: View?, parent: ViewGroup): View {
-        var agendaHeaderView: AgendaHeaderView? = convertView as AgendaHeaderView?
+        var agendaHeaderView = convertView
+        var eventAdapter: EventAdapter<CalendarEvent> ? = mRenderers[0]
+
         if (agendaHeaderView == null) {
-            agendaHeaderView = AgendaHeaderView.inflate(parent)
+            agendaHeaderView = LayoutInflater.from(parent.context).
+                    inflate(eventAdapter!!.getHeaderLayout(), parent, false)
         }
-        if (!CalendarManager.instance!!.events.isEmpty())
-            agendaHeaderView.setDay(getItem(position).instanceDay, mCurrentDayColor)
-        return agendaHeaderView
+
+        if (!CalendarManager.instance!!.events.isEmpty()) {
+            eventAdapter!!.getHeaderItemView(agendaHeaderView!!, getItem(position).instanceDay)
+        }
+
+        return agendaHeaderView!!
     }
+
+
 
     override
     fun getHeaderId(position: Int): Long {
-
-        return (if (CalendarManager.instance!!.events.isEmpty()) 0 else CalendarManager.instance!!.events.get(position).instanceDay.timeInMillis).toLong()
+        return (if (CalendarManager.instance!!.events.isEmpty()) 0
+        else CalendarManager.instance!!.events[position].instanceDay.timeInMillis).toLong()
     }
 
     override
@@ -80,38 +69,28 @@ class AgendaAdapter
     override
     fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var convertView = convertView
-        var eventRenderer: EventRenderer<CalendarEvent> = mRenderers[0]
+        var eventAdapter: EventAdapter<CalendarEvent> = mRenderers[0]
         val event = getItem(position)
 
         // Search for the correct event renderer
         for (renderer in mRenderers) {
             if (event.javaClass.isAssignableFrom(renderer.renderType)) {
-                eventRenderer = renderer
+                eventAdapter = renderer
                 break
             }
         }
+
         convertView = LayoutInflater.from(parent.context)
-                .inflate(eventRenderer.getEventLayout(CalendarManager.instance!!.events[position].hasEvent()), parent, false)
+                .inflate(eventAdapter.getEventLayout(CalendarManager.
+                        instance!!.events[position].hasEvent()), parent, false)
 
-
-        eventRenderer.render(convertView, event)
-
-        convertView.tag = position
-        convertView.setOnClickListener(visitClickListener)
-
-
+        eventAdapter.getEventItemView(convertView, event, position)
 
         return convertView
     }
 
-
-    fun setOnVisitClickListener(visitClickListener: View.OnClickListener) {
-        this.visitClickListener = visitClickListener
+    fun addEventRenderer(@NonNull adapter: EventAdapter<CalendarEvent>) {
+        mRenderers.add(adapter)
     }
 
-    fun addEventRenderer(@NonNull renderer: EventRenderer<CalendarEvent>) {
-        mRenderers.add(renderer)
-    }
-
-    // endregion
 }

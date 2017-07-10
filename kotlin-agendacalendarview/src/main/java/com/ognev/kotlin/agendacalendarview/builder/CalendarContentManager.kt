@@ -1,13 +1,12 @@
 package com.ognev.kotlin.agendacalendarview.builder
 
-import android.os.Handler
 import com.ognev.kotlin.agendacalendarview.AgendaCalendarView
 import com.ognev.kotlin.agendacalendarview.CalendarManager
 import com.ognev.kotlin.agendacalendarview.CalendarController
 import com.ognev.kotlin.agendacalendarview.agenda.AgendaAdapter
 import com.ognev.kotlin.agendacalendarview.models.BaseCalendarEvent
 import com.ognev.kotlin.agendacalendarview.models.CalendarEvent
-import com.ognev.kotlin.agendacalendarview.render.DefaultEventRenderer
+import com.ognev.kotlin.agendacalendarview.render.DefaultEventAdapter
 import java.util.*
 
 /**
@@ -16,7 +15,7 @@ import java.util.*
 class CalendarContentManager(
         val calendarController: CalendarController,
         val agendaCalendarView: AgendaCalendarView,
-        val sampleAgendaAdapter: DefaultEventRenderer) {
+        val sampleAgendaAdapter: DefaultEventAdapter) {
 
     private var minDate: Calendar? = null
     private var maxDate: Calendar? = null
@@ -48,7 +47,7 @@ class CalendarContentManager(
         else {
            calendarManager.addFromStartEvents(eventList, BaseCalendarEvent())
            (agendaCalendarView.agendaView.agendaListView.adapter as AgendaAdapter).updateEvents()
-           agendaCalendarView.agendaView.agendaListView.setSelection(eventList.size - 1)
+           agendaCalendarView.agendaView.agendaListView.scrollToCurrentDate(calendarManager.currentSelectedDay)
        }
     }
 
@@ -59,8 +58,8 @@ class CalendarContentManager(
             calendarManager.addEvents(eventList, BaseCalendarEvent())
             (agendaCalendarView.agendaView.agendaListView.adapter as AgendaAdapter).updateEvents()
 //            if (isSelectedDay) {
-                agendaCalendarView.agendaView.agendaListView.scrollToCurrentDate(Calendar.getInstance())
-                //                  mAgendaCalendarView.getAgendaView().getAgendaListView().setSelection(day);
+                agendaCalendarView.agendaView.agendaListView.scrollToCurrentDate(calendarManager.currentSelectedDay)
+            //                  mAgendaCalendarView.getAgendaView().getAgendaListView().setSelection(day);
 //                Handler().postDelayed({ isDaySelection = false }, 5000)
 //            }
         }
@@ -75,10 +74,6 @@ class CalendarContentManager(
         agendaCalendarView.init(readyWeeks, readyDays, readyEvents, sampleAgendaAdapter)
         agendaCalendarView.setCallbacks(calendarController)
     }
-
-
-
-
 
 
 }

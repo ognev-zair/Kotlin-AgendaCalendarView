@@ -15,12 +15,8 @@ import java.util.*
  * As the app is using several views, we want to keep everything in one place.
  */
 class CalendarManager
-// region Constructors
 
 (val context: Context) {
-    // endregion
-
-    // region Getters/Setters
 
     var locale: Locale? = null
         set(locale) {
@@ -51,9 +47,9 @@ class CalendarManager
     var events: MutableList<CalendarEvent> = ArrayList()
         private set
 
-    // endregion
 
-    // region Public methods
+    lateinit var currentSelectedDay: Calendar
+    var currentListPosition: Int = 0
 
     fun buildCal(minDate: Calendar?, maxDate: Calendar?) {
         if (minDate == null || maxDate == null) {
@@ -144,14 +140,15 @@ class CalendarManager
 
                         val dayInstance = Calendar.getInstance(locale)
                         dayInstance.setTime(dayItem.date)
-//                        copy.setInstanceDay(dayInstance)
-//                        copy.dayReference = (dayItem)
-//                        copy.weekReference = (weekItem)
+                        copy.setEventInstanceDay(dayInstance)
+                        copy.event = event.event
+                        copy.dayReference = (dayItem)
+                        copy.weekReference = (weekItem)
                         dayItem.setHasEvents(event.hasEvent())
                         // add instances in chronological order
                         events.add(copy)
                         Log.d("visits", event.startTime.toString())
-                        isEventForDay = true
+                        isEventForDay = event.hasEvent()
                     }
                 }
                 if (!isEventForDay) {
@@ -159,12 +156,9 @@ class CalendarManager
                     dayInstance.setTime(dayItem.date)
                     val copy = noEvent.copy()
 
-//                    copy.setInstanceDay(dayInstance)
-//                    copy.dayReference = (dayItem)
-//                    copy.weekReference = (weekItem)
-//                    copy.setLocation("")
-//                    copy.setTitle(context.getResources().getString(R.string.agenda_event_no_events))
-//                    copy.isPlaceholder = (true)
+                    copy.setEventInstanceDay(dayInstance)
+                    copy.dayReference = (dayItem)
+                    copy.weekReference = (weekItem)
                     events.add(copy)
                 }
             }
@@ -192,11 +186,12 @@ class CalendarManager
                         dayInstance.time = dayItem.date
                         copy.setEventInstanceDay(dayInstance)
                         copy.dayReference = (dayItem)
+                        copy.event = event.event
                         copy.weekReference = (weekItem)
                         // add instances in chronological order
                         events.add(0, copy)
                         Log.d("visits", event.startTime.toString())
-                        isEventForDay = true
+                        isEventForDay = event.hasEvent()
                     }
                 }
                 if (!isEventForDay) {
@@ -231,7 +226,6 @@ class CalendarManager
         }
         cal.add(Calendar.DATE, offset)
 
-        //    Log.d(LOG_TAG, String.format("Buiding row week starting at %s", cal.getTime()));
         for (c in 0..6) {
             val dayItem = DayItem.buildDayItemFromCal(cal)
             dayItems.add(dayItem)

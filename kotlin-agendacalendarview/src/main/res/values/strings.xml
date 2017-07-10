@@ -142,6 +142,4 @@
 	<string name="wi_moon_waning_quarter">&#xf081;</string>
 	<string name="wi_moon_waning_gibbous">&#xf082;</string>
 	<string name="wi_night_partly_cloudy">&#xf083;</string>
-	<string name="no_receptions">Нет приемов</string>
-	<string name="donot_accepting">Не принимаю</string>>
 </resources>

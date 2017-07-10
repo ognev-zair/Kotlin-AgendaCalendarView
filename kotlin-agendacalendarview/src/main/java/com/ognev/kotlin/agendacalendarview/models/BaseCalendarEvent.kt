@@ -19,7 +19,7 @@ open class BaseCalendarEvent : CalendarEvent {
     override lateinit var startTime: Calendar
     override lateinit var endTime: Calendar
 
-    override lateinit var event: Any
+    override var event: Any? = null
 
     override fun setEventInstanceDay(instanceDay: Calendar): BaseCalendarEvent {
         this.instanceDay = instanceDay

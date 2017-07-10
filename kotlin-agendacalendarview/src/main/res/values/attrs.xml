@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<declare-styleable name="ColorOptionsView">
-		<attr name="agendaCurrentDayTextColor" format="color"/>
 		<attr name="calendarHeaderColor" format="color"/>
 		<attr name="calendarColor" format="color"/>
-		<attr name="calendarDayTextColor" format="color"/>
+		<attr name="calendarSelectedDayTextColor" format="color"/>
+		<attr name="calendarMonthTextColor" format="color"/>
 		<attr name="calendarPastDayTextColor" format="color"/>
+		<attr name="circleBackgroundColor" format="color"/>
 		<attr name="calendarCurrentDayTextColor" format="color"/>
+		<attr name="cellPastBackgroundColor" format="color"/>
+		<attr name="cellNowadaysDayColor" format="color"/>
 		<attr name="fabColor" format="color"/>
 	</declare-styleable>
 </resources>

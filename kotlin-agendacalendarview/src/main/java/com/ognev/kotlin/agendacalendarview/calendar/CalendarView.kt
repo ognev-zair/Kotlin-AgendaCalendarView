@@ -1,6 +1,7 @@
 package com.ognev.kotlin.agendacalendarview.calendar
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.support.v7.widget.LinearLayoutManager
 import android.util.AttributeSet
 import android.util.Log
@@ -112,14 +113,16 @@ open class CalendarView : LinearLayout {
 
     // region Public methods
 
-    fun init(calendarManager: CalendarManager, dayTextColor: Int, currentDayTextColor: Int, pastDayTextColor: Int) {
+    fun init(calendarManager: CalendarManager, monthColor: Int, selectedDayTextColor: Int, currentDayTextColor: Int, pastDayTextColor: Int, circleColor: Drawable?
+             , cellPastBackgroundColor: Int, cellNowadaysDayColor: Int) {
         val today = calendarManager.today
         val locale = calendarManager.locale
         val weekDayFormatter = calendarManager.weekdayFormatter
         val weeks = calendarManager.weeks
 
         setUpHeader(today, weekDayFormatter!!, locale!!)
-        setUpAdapter(today, weeks, dayTextColor, currentDayTextColor, pastDayTextColor)
+        setUpAdapter(today, weeks, monthColor, selectedDayTextColor, currentDayTextColor, pastDayTextColor, circleColor
+        , cellPastBackgroundColor, cellNowadaysDayColor)
         scrollToDate(today, weeks)
     }
 
@@ -169,10 +172,12 @@ open class CalendarView : LinearLayout {
     /**
      * Creates a new adapter if necessary and sets up its parameters.
      */
-    private fun setUpAdapter(today: Calendar, weeks: List<IWeekItem>, dayTextColor: Int, currentDayTextColor: Int, pastDayTextColor: Int) {
+    private fun setUpAdapter(today: Calendar, weeks: List<IWeekItem>, monthColor: Int, selectedDayTextColor: Int, currentDayTextColor: Int, pastDayTextColor: Int,
+                             circleBackgroundColor: Drawable?, cellPastBackgroundColor: Int, cellNowadaysDayColor: Int) {
         if (mWeeksAdapter == null) {
             Log.d(LOG_TAG, "Setting adapter with today's calendar: " + today.toString())
-            mWeeksAdapter = WeeksAdapter(getContext(), today, dayTextColor, currentDayTextColor, pastDayTextColor)
+            mWeeksAdapter = WeeksAdapter(context, today, monthColor, selectedDayTextColor, currentDayTextColor, pastDayTextColor,
+                    circleBackgroundColor, cellPastBackgroundColor, cellNowadaysDayColor )
             listViewWeeks!!.setAdapter(mWeeksAdapter)
         }
         mWeeksAdapter!!.updateWeeksItems(weeks)
@@ -247,6 +252,9 @@ open class CalendarView : LinearLayout {
             mCurrentListPosition = currentWeekIndex!!.toInt()
             updateItemAtPosition(currentWeekIndex!!.toInt())
         }
+
+        CalendarManager.instance!!.currentSelectedDay = calendar
+        CalendarManager.instance!!.currentListPosition = mCurrentListPosition
 
         return mCurrentListPosition
     }
