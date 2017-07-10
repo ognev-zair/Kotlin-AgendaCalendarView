@@ -20,7 +20,7 @@ compile 'com.ognev.kotlin.agendacalendarview:kotlin-agendacalendarview:1.0'
 
 Layout xml file
 
-
+```java
     <com.ognev.kotlin.agendacalendarview.AgendaCalendarView
         android:id="@+id/agenda_calendar_view"
         android:layout_width="match_parent"
@@ -35,9 +35,10 @@ Layout xml file
         agendaCalendar:cellNowadaysDayColor="@color/white"
         tools:layout_editor_absoluteY="8dp"
         tools:layout_editor_absoluteX="8dp" />
-
+````
 Implement your activity/fragment from CalendarController
 
+```java
     fun getEmptyEventLayout(): Int
 
     fun getEventLayout() : Int
@@ -45,18 +46,20 @@ Implement your activity/fragment from CalendarController
     fun onDaySelected(dayItem: IDayItem)
 
     fun onScrollToDate(calendar: Calendar)
+````
     
 Create a Model class which you will get from json(Pojo):
-
+```java
     class SampleEvent(name: String, description: String) {
         var id: Long = 0
         var name: String = name
         var desciption: String = description
     }
+````
 
 Create model wrapper class for calendar widget:
 
-    
+```java    
     class MyCalendarEvent: BaseCalendarEvent {
 
     override lateinit var startTime: Calendar
@@ -109,9 +112,10 @@ Create model wrapper class for calendar widget:
         return super.toString()
      }
     }
+````
 
 Create adapter for associated calendar List
-  
+```java
     class SampleEventAgendaAdapter(var context: Context) : DefaultEventAdapter() {
         private var format: SimpleDateFormat? = null
 
@@ -158,9 +162,10 @@ Create adapter for associated calendar List
         return if(hasEvent) R.layout.view_agenda_event else R.layout.view_agenda_empty_event
      }
     }
-    
-Configure calendar in your code with a CalendarContentManager:
+````
 
+Configure calendar in your code with a CalendarContentManager:
+```java
         minDate = Calendar.getInstance()
         maxDate = Calendar.getInstance()
         minDate.add(Calendar.MONTH, -10)
@@ -174,16 +179,16 @@ Configure calendar in your code with a CalendarContentManager:
 
         contentManager.locale = Locale.ENGLISH
         contentManager.setDateRange(minDate, maxDate)
-
+````
 
 Add events to calendar from start
- 
+ ```java
         contentManager.loadItemsFromStart(eventList!!)
-
+````
 Add events to calendar from start
-
+```java
         contentManager.loadFromEndCalendar(eventList!!)
-
+````
 # Licence
 -----------
 
