@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         agendaCalendar:calendarCurrentDayTextColor="@color/main_blue"
         agendaCalendar:calendarSelectedDayTextColor="@color/white"
-        agendaCalendar:calendarMonthTextColor="@color/white"
+        agendaCalendar:calendarMonthTextColor="@color/black"
         agendaCalendar:calendarHeaderColor="@color/main_blue"
         agendaCalendar:circleBackgroundColor="@drawable/selected_day_background"
         agendaCalendar:calendarPastDayTextColor="@android:color/darker_gray"

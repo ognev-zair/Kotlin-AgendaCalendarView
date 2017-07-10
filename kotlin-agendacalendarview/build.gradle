@@ -1,6 +1,13 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'me.tatarka.retrolambda'
+
+ext {
+    PUBLISH_GROUP_ID = 'com.ognev.kotlin.agendacalendarview'
+    PUBLISH_ARTIFACT_ID = 'kotlin-agendacalendarview'
+    PUBLISH_VERSION = '1.0'
+}
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.3"
@@ -50,3 +57,5 @@ dependencies {
 repositories {
     mavenCentral()
 }
+
+apply from: 'https://raw.githubusercontent.com/blundell/release-android-library/master/android-release-aar.gradle'
