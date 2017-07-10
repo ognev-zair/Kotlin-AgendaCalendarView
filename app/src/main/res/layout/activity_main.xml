@@ -11,12 +11,14 @@
         android:id="@+id/agenda_calendar_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        agendaCalendar:agendaCurrentDayTextColor="@color/main_blue"
-        agendaCalendar:calendarColor="@android:color/white"
-        agendaCalendar:calendarCurrentDayTextColor="@color/calendar_text_current_day"
-        agendaCalendar:calendarDayTextColor="@color/main_blue"
+        agendaCalendar:calendarCurrentDayTextColor="@color/main_blue"
+        agendaCalendar:calendarSelectedDayTextColor="@color/white"
+        agendaCalendar:calendarMonthTextColor="@color/white"
         agendaCalendar:calendarHeaderColor="@color/main_blue"
+        agendaCalendar:circleBackgroundColor="@drawable/selected_day_background"
         agendaCalendar:calendarPastDayTextColor="@android:color/darker_gray"
+        agendaCalendar:cellPastBackgroundColor="@color/calendar_past_days_bg"
+        agendaCalendar:cellNowadaysDayColor="@color/white"
         tools:layout_editor_absoluteY="8dp"
         tools:layout_editor_absoluteX="8dp" />
 

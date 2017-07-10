@@ -19,8 +19,7 @@ import java.util.*
  * Adapter for the agenda, implements StickyListHeadersAdapter.
  * Days as sections and CalendarEvents as list items.
  */
-class AgendaAdapter
-(private val mCurrentDayColor: Int) : BaseAdapter(), StickyListHeadersAdapter {
+class AgendaAdapter: BaseAdapter(), StickyListHeadersAdapter {
 
     override fun getCount(): Int {
         return CalendarManager.instance!!.events.size

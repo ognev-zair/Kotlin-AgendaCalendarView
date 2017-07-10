@@ -4,8 +4,8 @@ import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
-import android.graphics.Color
 import android.graphics.Typeface
+import android.graphics.drawable.Drawable
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -25,13 +25,11 @@ import java.util.ArrayList
 import java.util.Calendar
 
 class WeeksAdapter
-// region Constructor
-
-(private val mContext: Context, private val mToday: Calendar, dayTextColor: Int, currentDayTextColor: Int, pastDayTextColor: Int) : RecyclerView.Adapter<WeeksAdapter.WeekViewHolder>() {
+(private val mContext: Context, private val mToday: Calendar, val monthColor: Int,val selectedDayTextColor: Int, val currentDayTextColor: Int, val pastDayTextColor: Int,
+ val circleColor: Drawable?, val cellPastBackgroundColor: Int, val cellNowadaysDayColor: Int) : RecyclerView.Adapter<WeeksAdapter.WeekViewHolder>() {
     override fun getItemCount(): Int {
         return weeksList.size
     }
-    // region Getters/setters
 
     val weeksList: List<IWeekItem>
     var isDragging: Boolean = false
@@ -42,18 +40,17 @@ class WeeksAdapter
             }
         }
     var isAlphaSet: Boolean = false
-    private val mDayTextColor: Int
-    private val mPastDayTextColor: Int
-    private val mCurrentDayColor: Int
+//    private val mDayTextColor: Int
+//    private val mPastDayTextColor: Int
+//    private val mCurrentDayColor: Int
 
     init {
-        this.mDayTextColor = Color.parseColor("#7685a2")
-        this.mCurrentDayColor = Color.parseColor("#4a76c8")
-        this.mPastDayTextColor = Color.parseColor("#7685a2")
+//        this.mDayTextColor = Color.parseColor("#7685a2")
+//        this.mCurrentDayColor = Color.parseColor("#4a76c8")
+//        this.mPastDayTextColor = Color.parseColor("#7685a2")
         weeksList = CalendarManager.instance!!.weeks
     }
 
-    // endregion
 
     fun updateWeeksItems(weekItems: List<IWeekItem>) {
         //    this.mWeeksList.clear();
@@ -61,9 +58,6 @@ class WeeksAdapter
         notifyDataSetChanged()
     }
 
-    // endregion
-
-    // region RecyclerView.Adapter<WeeksAdapter.WeekViewHolder> methods
 
     override
     fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WeekViewHolder {
@@ -77,12 +71,6 @@ class WeeksAdapter
         weekViewHolder.bindWeek(weekItem, mToday)
     }
 
-//    val itemCount: Int
-//             weeksList.size
-
-    // endregion
-
-    // region Class - WeekViewHolder
 
     inner class WeekViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -114,9 +102,10 @@ class WeeksAdapter
                 val point = cellItem.findViewById(R.id.point)
                 cellItem.setOnClickListener({ v -> BusProvider.instance.send(Events.DayClickedEvent(dayItem)) })
 
+                circleView.setBackgroundDrawable(circleColor)
                 txtMonth.setVisibility(View.GONE)
-                txtDay.setTextColor(mPastDayTextColor)
-                txtMonth.setTextColor(mDayTextColor)
+                txtDay.setTextColor(pastDayTextColor)
+                txtMonth.setTextColor(monthColor)
                 circleView.setVisibility(View.GONE)
 
                 //        point.setVisibility(dayItem.hasEvents() ? View.VISIBLE : View.GONE);
@@ -137,21 +126,21 @@ class WeeksAdapter
 
                 // Check if this day is in the past
                 if (today.time.after(dayItem.date) && !DateHelper.sameDate(today, dayItem.date)) {
-                    txtDay.setTextColor(mPastDayTextColor)
-                    txtMonth.setTextColor(mPastDayTextColor)
-                    cellItem.setBackgroundColor(Color.parseColor("#f5f8fa"))
+                    txtDay.setTextColor(pastDayTextColor)
+                    txtMonth.setTextColor(monthColor)
+                    cellItem.setBackgroundColor(cellPastBackgroundColor)
                 } else {
-                    cellItem.setBackgroundColor(Color.WHITE)
+                    cellItem.setBackgroundColor(cellNowadaysDayColor)
                 }
 
                 // Highlight the cell if this day is today
                 if (dayItem.isToday && !dayItem.isSelected) {
-                    txtDay.setTextColor(mCurrentDayColor)
+                    txtDay.setTextColor(currentDayTextColor)
                 }
 
                 // Show a circle if the day is selected
                 if (dayItem.isSelected) {
-                    txtDay.setTextColor(Color.parseColor("#ffffff"))
+                    txtDay.setTextColor(selectedDayTextColor)
                     circleView.visibility = View.VISIBLE
                     //          GradientDrawable drawable = (GradientDrawable) circleView.getBackground();
                     //          drawable.setStroke((int) (1 * Resources.getSystem().getDisplayMetrics().density), mDayTextColor);
