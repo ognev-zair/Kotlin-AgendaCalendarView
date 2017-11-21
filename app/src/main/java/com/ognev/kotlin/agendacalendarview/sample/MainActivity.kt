@@ -26,6 +26,8 @@ class MainActivity : AppCompatActivity(), CalendarController {
     private var startMonth: Int = Calendar.getInstance().get(Calendar.MONTH)
     private var endMonth: Int = Calendar.getInstance().get(Calendar.MONTH)
 
+    private var loadingTask: LoadingTask? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -50,7 +52,7 @@ class MainActivity : AppCompatActivity(), CalendarController {
 
         for (i in 1..maxLength) {
             val day = Calendar.getInstance(Locale.ENGLISH)
-            day.timeInMillis = System.currentTimeMillis();
+            day.timeInMillis = System.currentTimeMillis()
             day.set(Calendar.DAY_OF_MONTH, i)
 
             eventList.add(MyCalendarEvent(day, day,
@@ -61,6 +63,11 @@ class MainActivity : AppCompatActivity(), CalendarController {
         agenda_calendar_view.agendaView.agendaListView.setOnItemClickListener({ parent: AdapterView<*>, view: View, position: Int, id: Long ->
             Toast.makeText(view.context, "item: ".plus(position), Toast.LENGTH_SHORT).show()
         })
+    }
+
+    override fun onStop() {
+        super.onStop()
+        loadingTask?.cancel(true)
     }
 
     override fun getEmptyEventLayout() = R.layout.view_agenda_empty_event
@@ -94,107 +101,102 @@ class MainActivity : AppCompatActivity(), CalendarController {
     }
 
     private fun loadItemsAsync(addFromStart: Boolean) {
-        object : AsyncTask<Unit, Unit, Unit>() {
+        loadingTask?.cancel(true)
 
-            private var isRunning: Boolean = false
-            private val startMonthCal: Calendar = Calendar.getInstance()
-            private val endMonthCal: Calendar = Calendar.getInstance()
+        loadingTask = LoadingTask(addFromStart)
+        loadingTask?.execute()
+    }
 
+    inner class LoadingTask(private val addFromStart: Boolean) : AsyncTask<Unit, Unit, Unit>() {
 
-            override fun onPreExecute() {
-                super.onPreExecute()
-                if (isRunning) {
-                    cancel(true)
-                }
-                agenda_calendar_view.showProgress()
-                eventList!!.clear()
-                isRunning = true
-            }
+        private val startMonthCal: Calendar = Calendar.getInstance()
+        private val endMonthCal: Calendar = Calendar.getInstance()
 
-            override fun doInBackground(vararg params: Unit) {
-                Thread.sleep(2000) // simulating requesting json via rest api
+        override fun onPreExecute() {
+            super.onPreExecute()
+            agenda_calendar_view.showProgress()
+            eventList.clear()
+        }
 
-                if (addFromStart) {
-                    if (startMonth == 0) {
-                        startMonth = 11
-                    } else {
-                        startMonth--
-                    }
+        override fun doInBackground(vararg params: Unit?) {
+            Thread.sleep(2000) // simulating requesting json via rest api
 
-                    startMonthCal.set(Calendar.MONTH, startMonth)
-                    if (startMonth == 11) {
-                        var year = startMonthCal.get(Calendar.YEAR);
-                        startMonthCal.set(Calendar.YEAR, ++year)
-                    }
-
-
-                    for (i in 1..startMonthCal.getActualMaximum(Calendar.DAY_OF_MONTH)) {
-                        val day = Calendar.getInstance(Locale.ENGLISH)
-                        day.timeInMillis = System.currentTimeMillis();
-                        day.set(Calendar.MONTH, startMonth)
-                        day.set(Calendar.DAY_OF_MONTH, i)
-                        if (endMonth == 11) {
-                            day.set(Calendar.YEAR, day.get(Calendar.YEAR) - 1)
-                        }
-
-                        eventList.add(MyCalendarEvent(day, day,
-                                DayItem.buildDayItemFromCal(day),
-                                SampleEvent(name = "Awesome $i", description = "Event $i"))
-                                .setEventInstanceDay(day))
-                    }
+            if (addFromStart) {
+                if (startMonth == 0) {
+                    startMonth = 11
                 } else {
-                    if (endMonth >= 11) {
-                        endMonth = 0
-                    } else {
-                        endMonth++
+                    startMonth--
+                }
+
+                startMonthCal.set(Calendar.MONTH, startMonth)
+                if (startMonth == 11) {
+                    var year = startMonthCal.get(Calendar.YEAR)
+                    startMonthCal.set(Calendar.YEAR, ++year)
+                }
+
+
+                for (i in 1..startMonthCal.getActualMaximum(Calendar.DAY_OF_MONTH)) {
+                    val day = Calendar.getInstance(Locale.ENGLISH)
+                    day.timeInMillis = System.currentTimeMillis()
+                    day.set(Calendar.MONTH, startMonth)
+                    day.set(Calendar.DAY_OF_MONTH, i)
+                    if (endMonth == 11) {
+                        day.set(Calendar.YEAR, day.get(Calendar.YEAR) - 1)
                     }
 
-                    endMonthCal.set(Calendar.MONTH, endMonth)
+                    eventList.add(MyCalendarEvent(day, day,
+                            DayItem.buildDayItemFromCal(day),
+                            SampleEvent(name = "Awesome $i", description = "Event $i"))
+                            .setEventInstanceDay(day))
+                }
+            } else {
+                if (endMonth >= 11) {
+                    endMonth = 0
+                } else {
+                    endMonth++
+                }
+
+                endMonthCal.set(Calendar.MONTH, endMonth)
+                if (endMonth == 0) {
+                    var year = endMonthCal.get(Calendar.YEAR)
+                    endMonthCal.set(Calendar.YEAR, ++year)
+                }
+
+                for (i in 1..endMonthCal.getActualMaximum(Calendar.DAY_OF_MONTH)) {
+                    val day = Calendar.getInstance(Locale.ENGLISH)
+                    day.timeInMillis = System.currentTimeMillis()
+                    day.set(Calendar.MONTH, endMonth)
+                    day.set(Calendar.DAY_OF_MONTH, i)
                     if (endMonth == 0) {
-                        var year = endMonthCal.get(Calendar.YEAR);
-                        endMonthCal.set(Calendar.YEAR, ++year)
+                        day.set(Calendar.YEAR, day.get(Calendar.YEAR) + 1)
                     }
 
-                    for (i in 1..endMonthCal.getActualMaximum(Calendar.DAY_OF_MONTH)) {
-                        val day = Calendar.getInstance(Locale.ENGLISH)
-                        day.timeInMillis = System.currentTimeMillis();
-                        day.set(Calendar.MONTH, endMonth)
-                        day.set(Calendar.DAY_OF_MONTH, i)
-                        if (endMonth == 0) {
-                            day.set(Calendar.YEAR, day.get(Calendar.YEAR) + 1)
-                        }
-
-                        if (i % 4 == 0) {
-                            val day1 = Calendar.getInstance()
-                            day1.timeInMillis = System.currentTimeMillis()
-                            day1.set(Calendar.MONTH, endMonth)
-                            day1.set(Calendar.DAY_OF_MONTH, i)
-                            eventList.add(MyCalendarEvent(day, day,
-                                    DayItem.buildDayItemFromCal(day),
-                                    SampleEvent(name = "Awesome $i", description = "Event $i"))
-                                    .setEventInstanceDay(day))
-                        }
-
+                    if (i % 4 == 0) {
+                        val day1 = Calendar.getInstance()
+                        day1.timeInMillis = System.currentTimeMillis()
+                        day1.set(Calendar.MONTH, endMonth)
+                        day1.set(Calendar.DAY_OF_MONTH, i)
                         eventList.add(MyCalendarEvent(day, day,
                                 DayItem.buildDayItemFromCal(day),
                                 SampleEvent(name = "Awesome $i", description = "Event $i"))
                                 .setEventInstanceDay(day))
                     }
+
+                    eventList.add(MyCalendarEvent(day, day,
+                            DayItem.buildDayItemFromCal(day),
+                            SampleEvent(name = "Awesome $i", description = "Event $i"))
+                            .setEventInstanceDay(day))
                 }
-
             }
+        }
 
-            override fun onPostExecute(user: Unit) {
-                if (addFromStart) {
-                    contentManager.loadItemsFromStart(eventList)
-                } else {
-                    contentManager.loadFromEndCalendar(eventList)
-                }
-                agenda_calendar_view.hideProgress()
-
-
-                isRunning = false
+        override fun onPostExecute(user: Unit) {
+            if (addFromStart) {
+                contentManager.loadItemsFromStart(eventList)
+            } else {
+                contentManager.loadFromEndCalendar(eventList)
             }
-        }.execute()
+            agenda_calendar_view.hideProgress()
+        }
     }
 }
