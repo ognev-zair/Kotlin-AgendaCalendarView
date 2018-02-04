@@ -1,5 +1,6 @@
 package com.ognev.kotlin.agendacalendarview.builder
 
+import android.app.Application
 import com.ognev.kotlin.agendacalendarview.AgendaCalendarView
 import com.ognev.kotlin.agendacalendarview.CalendarManager
 import com.ognev.kotlin.agendacalendarview.CalendarController

@@ -245,7 +245,7 @@ class CalendarManager
 
         fun getInstance(context: Context): CalendarManager {
             if (instance == null) {
-                instance = CalendarManager(context)
+                instance = CalendarManager(context.applicationContext)
             }
             return instance as CalendarManager
         }
