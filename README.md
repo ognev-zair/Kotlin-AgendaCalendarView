@@ -1,8 +1,9 @@
 # Kotlin-AgendaCalendarView
-Kotlin-AgendaCalendarView based on [AgendaCalendarView](https://github.com/Tibolte/AgendaCalendarView) developed on Java
+Kotlin-AgendaCalendarView based on [AgendaCalendarView](https://github.com/Tibolte/AgendaCalendarView)
 
-Kotlin-AgendaCalendarView is a calendar widget with list of events
-which can be dynamically filled.  
+Kotlin-AgendaCalendarView is a awesome calendar widget with a list of events.
+Events can be dynamically added to the calendar.
+Please feel free to contribute to this project by creating pull request on feauture or bugfix branches.
 
 
 # Demo: 
@@ -64,7 +65,7 @@ Implement your activity/fragment from CalendarController
     fun onScrollToDate(calendar: Calendar)
 ````
     
-Create a Model class which you will get from json(Pojo):
+Create your Model class:
 ```java
     class SampleEvent(name: String, description: String) {
         var id: Long = 0
@@ -130,7 +131,7 @@ Create model wrapper class for calendar widget:
     }
 ````
 
-Create adapter for associated calendar List
+Create adapter:
 ```java
     class SampleEventAgendaAdapter(var context: Context) : DefaultEventAdapter() {
         private var format: SimpleDateFormat? = null
