@@ -152,7 +152,7 @@ class WeeksAdapter
                 // Check if the month label has to be displayed
                 if (dayItem.value === 15) {
                     mTxtMonth.visibility = View.VISIBLE
-                    val monthDateFormat = SimpleDateFormat(mContext.getResources().getString(R.string.month_half_name_format), CalendarManager.instance!!.locale)
+                    val monthDateFormat = SimpleDateFormat(mContext.getString(R.string.month_half_name_format), CalendarManager.instance!!.locale)
                     var month = monthDateFormat.format(weekItem.date).toUpperCase()
                     if (today.get(Calendar.YEAR) !== weekItem.year) {
                         month = month + String.format(" %d", weekItem.year)

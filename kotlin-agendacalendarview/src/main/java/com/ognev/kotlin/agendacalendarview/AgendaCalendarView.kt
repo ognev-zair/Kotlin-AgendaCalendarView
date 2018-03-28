@@ -5,6 +5,7 @@ import android.animation.ObjectAnimator
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.support.annotation.NonNull
+import android.support.v4.content.ContextCompat
 import android.support.v4.widget.SwipeRefreshLayout
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -43,20 +44,20 @@ class AgendaCalendarView : FrameLayout, StickyListHeadersListView.OnStickyHeader
     private var mFabColor: Int = 0
     private var calendarController: CalendarController? = null
 
-    constructor(context: Context) : super(context) {}
+    constructor(context: Context) : super(context)
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
 
         val a = context.obtainStyledAttributes(attrs, R.styleable.ColorOptionsView, 0, 0)
-        mCalendarHeaderColor = a.getColor(R.styleable.ColorOptionsView_calendarHeaderColor, getResources().getColor(R.color.theme_primary))
-        monthCalendarColor = a.getColor(R.styleable.ColorOptionsView_calendarMonthTextColor, getResources().getColor(R.color.theme_text_icons))
-        selectedDayTextColor = a.getColor(R.styleable.ColorOptionsView_calendarSelectedDayTextColor, getResources().getColor(R.color.theme_text_icons))
-        mCalendarCurrentDayColor = a.getColor(R.styleable.ColorOptionsView_calendarCurrentDayTextColor, getResources().getColor(R.color.calendar_text_current_day))
-        mCalendarPastDayTextColor = a.getColor(R.styleable.ColorOptionsView_calendarPastDayTextColor, getResources().getColor(R.color.theme_light_primary))
+        mCalendarHeaderColor = a.getColor(R.styleable.ColorOptionsView_calendarHeaderColor, ContextCompat.getColor(context, R.color.theme_primary))
+        monthCalendarColor = a.getColor(R.styleable.ColorOptionsView_calendarMonthTextColor, ContextCompat.getColor(context, R.color.theme_text_icons))
+        selectedDayTextColor = a.getColor(R.styleable.ColorOptionsView_calendarSelectedDayTextColor, ContextCompat.getColor(context, R.color.theme_text_icons))
+        mCalendarCurrentDayColor = a.getColor(R.styleable.ColorOptionsView_calendarCurrentDayTextColor, ContextCompat.getColor(context, R.color.calendar_text_current_day))
+        mCalendarPastDayTextColor = a.getColor(R.styleable.ColorOptionsView_calendarPastDayTextColor, ContextCompat.getColor(context, R.color.theme_light_primary))
         circleBackgroundColor = a.getDrawable(R.styleable.ColorOptionsView_circleBackgroundColor)
-        cellNowadaysDayColor = a.getColor(R.styleable.ColorOptionsView_cellNowadaysDayColor, getResources().getColor(R.color.white))
-        cellPastBackgroundColor = a.getColor(R.styleable.ColorOptionsView_cellPastBackgroundColor, getResources().getColor(R.color.calendar_past_days_bg))
-        mFabColor = a.getColor(R.styleable.ColorOptionsView_fabColor, getResources().getColor(R.color.theme_accent))
+        cellNowadaysDayColor = a.getColor(R.styleable.ColorOptionsView_cellNowadaysDayColor, ContextCompat.getColor(context, R.color.white))
+        cellPastBackgroundColor = a.getColor(R.styleable.ColorOptionsView_cellPastBackgroundColor, ContextCompat.getColor(context, R.color.calendar_past_days_bg))
+        mFabColor = a.getColor(R.styleable.ColorOptionsView_fabColor, ContextCompat.getColor(context, R.color.theme_accent))
 
         val inflater = context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
