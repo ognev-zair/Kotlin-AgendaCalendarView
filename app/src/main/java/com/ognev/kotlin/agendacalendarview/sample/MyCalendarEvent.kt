@@ -7,8 +7,7 @@ import java.util.*
  * Sample Calendar Event
  */
 
-class MyCalendarEvent: BaseCalendarEvent {
-
+class MyCalendarEvent : BaseCalendarEvent {
 
     override lateinit var startTime: Calendar
     override lateinit var endTime: Calendar
@@ -31,34 +30,19 @@ class MyCalendarEvent: BaseCalendarEvent {
         return this
     }
 
-    constructor(calendarEvent: CalendarEvent) {
-    }
-
+    constructor()
 
     constructor(startTime: Calendar,
                 endTime: Calendar,
                 dayItem: DayItem,
-                event: SampleEvent?)  {
+                event: SampleEvent?) {
         this.startTime = startTime
         this.endTime = endTime
         this.dayReference = dayItem
         this.event = event
     }
 
+    override fun copy(): MyCalendarEvent = MyCalendarEvent()
 
-    override
-    fun copy(): MyCalendarEvent {
-        return MyCalendarEvent(this)
-    }
-
-    override fun hasEvent(): Boolean {
-        return event != null
-    }
-
-    override
-    fun toString(): String {
-        return super.toString()
-    }
-
-
+    override fun hasEvent() = event != null
 }

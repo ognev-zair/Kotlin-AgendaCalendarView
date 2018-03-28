@@ -105,7 +105,7 @@ object DateHelper {
         val sb = StringBuilder(64)
         if (days > 0) {
             sb.append(days)
-            sb.append(context.getResources().getString(R.string.agenda_event_day_duration))
+            sb.append(context.getString(R.string.agenda_event_day_duration))
             return sb.toString()
         } else {
             if (hours > 0) {
