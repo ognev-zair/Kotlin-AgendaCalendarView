@@ -181,17 +181,20 @@ class CalendarManager
                     if (DateHelper.isBetweenInclusive(dayItem.date, event.startTime, event.endTime)) {
                         val copy = event.copy()
 
-                        dayItem.setHasEvents(event.hasEvent())
-                        val dayInstance = Calendar.getInstance(locale)
-                        dayInstance.time = dayItem.date
-                        copy.setEventInstanceDay(dayInstance)
-                        copy.dayReference = (dayItem)
-                        copy.event = event.event
-                        copy.weekReference = (weekItem)
-                        // add instances in chronological order
-                        events.add(0, copy)
-                        Log.d("visits", event.startTime.toString())
                         isEventForDay = event.hasEvent()
+
+                        if(isEventForDay){
+                            dayItem.setHasEvents(event.hasEvent())
+                            val dayInstance = Calendar.getInstance(locale)
+                            dayInstance.time = dayItem.date
+                            copy.setEventInstanceDay(dayInstance)
+                            copy.dayReference = (dayItem)
+                            copy.event = event.event
+                            copy.weekReference = (weekItem)
+                            // add instances in chronological order
+                            events.add(0, copy)
+                            Log.d("visits", event.startTime.toString())
+                        }
                     }
                 }
                 if (!isEventForDay) {
