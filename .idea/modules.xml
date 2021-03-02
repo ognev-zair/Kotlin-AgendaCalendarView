@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/KotlinAgendaCalendarView.iml" filepath="$PROJECT_DIR$/KotlinAgendaCalendarView.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/kotlin-agendacalendarview/kotlin-agendacalendarview.iml" filepath="$PROJECT_DIR$/kotlin-agendacalendarview/kotlin-agendacalendarview.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Kotlin-AgendaCalendarView.iml" filepath="$PROJECT_DIR$/.idea/modules/Kotlin-AgendaCalendarView.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Kotlin-AgendaCalendarView.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Kotlin-AgendaCalendarView.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/kotlin-agendacalendarview/Kotlin-AgendaCalendarView.kotlin-agendacalendarview.iml" filepath="$PROJECT_DIR$/.idea/modules/kotlin-agendacalendarview/Kotlin-AgendaCalendarView.kotlin-agendacalendarview.iml" />
     </modules>
   </component>
 </project>
